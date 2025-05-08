@@ -1,4 +1,4 @@
-FROM bellsoft/liberica-openjdk-alpine-musl:17
+FROM bellsoft/liberica-openjdk-alpine-musl:21
 VOLUME /tmp
-COPY target/ms-consulta.jar app.jar
+COPY target/ms-consulta-1.jar app.jar
 ENTRYPOINT ["java", "-jar", "/app.jar"]
