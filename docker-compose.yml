@@ -1,0 +1,111 @@
+version: '3.9'
+
+services:
+  postgres_auth:
+    image: postgres:16
+    container_name: db_auth
+    environment:
+      POSTGRES_DB: auth_db
+      POSTGRES_USER: auth_user
+      POSTGRES_PASSWORD: auth_pass
+    ports:
+      - "5433:5432"
+    networks:
+      - hospital_net
+    volumes:
+      - ./scripts/auth-init.sql:/docker-entrypoint-initdb.d/init.sql
+
+
+  postgres_paciente:
+    image: postgres:16
+    container_name: db_paciente
+    environment:
+      POSTGRES_DB: paciente_db
+      POSTGRES_USER: paciente_user
+      POSTGRES_PASSWORD: paciente_pass
+    ports:
+      - "5434:5432"
+    networks:
+      - hospital_net
+    volumes:
+      - ./scripts/paciente-init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  postgres_consulta:
+    image: postgres:16
+    container_name: db_consulta
+    environment:
+      POSTGRES_DB: consulta_db
+      POSTGRES_USER: consulta_user
+      POSTGRES_PASSWORD: consulta_pass
+    ports:
+      - "5435:5432"
+    networks:
+      - hospital_net
+    volumes:
+      - ./scripts/consulta-init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  ms-auth:
+    build: ./ms-auth
+    container_name: ms_auth
+    depends_on:
+      - postgres_auth
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db_auth:5432/auth_db
+      SPRING_DATASOURCE_USERNAME: auth_user
+      SPRING_DATASOURCE_PASSWORD: auth_pass
+    ports:
+      - "8081:8080"
+    networks:
+      - hospital_net
+
+  ms-paciente:
+    build: ./ms-paciente
+    container_name: ms_paciente
+    depends_on:
+      - postgres_paciente
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db_paciente:5432/paciente_db
+      SPRING_DATASOURCE_USERNAME: paciente_user
+      SPRING_DATASOURCE_PASSWORD: paciente_pass
+    ports:
+      - "8082:8080"
+    networks:
+      - hospital_net
+
+  ms-consulta:
+    build: ./ms-consulta
+    container_name: ms_consulta
+    depends_on:
+      - postgres_consulta
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db_consulta:5432/consulta_db
+      SPRING_DATASOURCE_USERNAME: consulta_user
+      SPRING_DATASOURCE_PASSWORD: consulta_pass
+    ports:
+      - "8083:8080"
+    networks:
+      - hospital_net
+
+  api-gateway:
+    build: ./api-gateway
+    container_name: api_gateway
+    depends_on:
+      - ms-auth
+      - ms-paciente
+      - ms-consulta
+    ports:
+      - "8080:8080"
+    networks:
+      - hospital_net
+
+  frontend:
+    build: ./frontend
+    container_name: frontend
+    ports:
+      - "4200:80"
+    networks:
+      - hospital_net
+
+networks:
+  hospital_net:
+    driver: bridge
