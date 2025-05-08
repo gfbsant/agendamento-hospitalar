@@ -1,8 +1,6 @@
-version: '3.9'
-
 services:
   postgres_auth:
-    image: postgres:16
+    image: postgres:17
     container_name: db_auth
     environment:
       POSTGRES_DB: auth_db
@@ -17,7 +15,7 @@ services:
 
 
   postgres_paciente:
-    image: postgres:16
+    image: postgres:17
     container_name: db_paciente
     environment:
       POSTGRES_DB: paciente_db
@@ -31,7 +29,7 @@ services:
       - ./scripts/paciente-init.sql:/docker-entrypoint-initdb.d/init.sql
 
   postgres_consulta:
-    image: postgres:16
+    image: postgres:17
     container_name: db_consulta
     environment:
       POSTGRES_DB: consulta_db

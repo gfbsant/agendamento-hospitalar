@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>ufpr.br.hospital</groupId>
 	<artifactId>ms-auth</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1</version>
 	<name>ms-auth</name>
 	<description>Auth Project for a Hospital Schedule System based on Spring Boot</description>
 	<url/>

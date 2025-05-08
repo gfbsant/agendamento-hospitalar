@@ -2,11 +2,11 @@ server:
   port: 8080
 spring:
   application:
-    name: ms-consulta
+    name: ms-paciente
   datasource:
-    url: jdbc:postgresql://db_consulta:5432/consulta_db
-    username: consulta_user
-    password: consulta_pass
+    url: jdbc:postgresql://db_paciente:5432/paciente_db
+    username: paciente_user
+    password: paciente_pass
   jpa:
     hibernate:
       ddl-auto: update
@@ -14,3 +14,4 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
+

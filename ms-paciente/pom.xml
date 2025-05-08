@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>ufpr.br.ms-paciente</groupId>
 	<artifactId>ms-paciente</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1</version>
 	<name>ms-paciente</name>
 	<description>Repository for Patient Module based on Springboot</description>
 	<url/>
