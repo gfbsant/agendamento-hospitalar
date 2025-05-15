@@ -11,6 +11,17 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: gfbsant@gmail.com
+    password: belahbhmyczbtusu
     properties:
-      hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+jwt:
+  secret: cTNKZHVrYzFqcGFuZDNoOGs5ZDdzamtuZHE4N2VyanZjZWpyZGo1ZDhyZWpyZGduOXJlOQ==

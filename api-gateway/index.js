@@ -1,11 +1,15 @@
 const express = require('express');
+const cors = require('cors');
 const app = express();
-const port = 8080;
 
-app.get('/', (req, res) => {
-    res.send('API Gateway funcionando!');
-});
+const authRoutes = require('./routes/auth');
+const pacienteRoutes = require('./routes/paciente');
+const consultaRoutes = require('./routes/consulta');
 
-app.listen(port, () => {
-    console.log(`API Gateway ouvindo em http://localhost:${port}`);
+app.use(cors());
+
+app.use('/', [authRoutes, pacienteRoutes, consultaRoutes]);
+
+app.listen(8080, () => {
+    console.log('API Gateway rodando em http://localhost:8080');
 });

@@ -44,7 +44,7 @@ services:
 
   ms-auth:
     build: ./ms-auth
-    container_name: ms_auth
+    container_name: ms-auth
     depends_on:
       - postgres_auth
     environment:
@@ -58,7 +58,7 @@ services:
 
   ms-paciente:
     build: ./ms-paciente
-    container_name: ms_paciente
+    container_name: ms-paciente
     depends_on:
       - postgres_paciente
     environment:
@@ -72,7 +72,7 @@ services:
 
   ms-consulta:
     build: ./ms-consulta
-    container_name: ms_consulta
+    container_name: ms-consulta
     depends_on:
       - postgres_consulta
     environment:
@@ -86,7 +86,7 @@ services:
 
   api-gateway:
     build: ./api-gateway
-    container_name: api_gateway
+    container_name: api-gateway
     depends_on:
       - ms-auth
       - ms-paciente
