@@ -1,23 +1,24 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {AuthService} from '../../services/auth.service';
-import {NgIf} from '@angular/common';
+import {Router} from '@angular/router';
+
 
 @Component({
   standalone: true,
   selector: 'app-login',
   imports: [
-    ReactiveFormsModule,
-    NgIf
+    ReactiveFormsModule
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
+
 export class LoginComponent {
   form: FormGroup;
   erroLogin = false;
 
-  constructor(private fb: FormBuilder, private authService: AuthService) {
+  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {
     this.form = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       senha: ['', Validators.required],
@@ -32,6 +33,7 @@ export class LoginComponent {
           localStorage.setItem('token', res.token);
           console.log('Login OK: ', res.token);
           this.erroLogin = false;
+          this.router.navigate(['/dashboard'])
         },
         error: () => {
           this.erroLogin = true;

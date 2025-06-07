@@ -1,6 +1,6 @@
 <div class="container d-flex justify-content-center align-items-center" style="height: 100vh;">
   <div class="card p-4" style="width: 400px;">
-    <h4 class="text-center mb-4">Login</h4>
+    <h4 class="text-center mb-4">Login teste</h4>
 
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
       <div class="mb-3">
@@ -15,9 +15,11 @@
 
       <button type="submit" class="btn btn-primary w-100">Entrar</button>
 
-      <div *ngIf="erroLogin" class="alert alert-danger mt-3">
-        Email ou senha inválidos.
-      </div>
+      @if (erroLogin) {
+        <div class="alert alert-danger mt-3">
+          Email ou senha inválidos.
+        </div>
+      }
     </form>
   </div>
 </div>
