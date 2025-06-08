@@ -94,4 +94,4 @@ docker compose down
 
 ## 📝 Licença
 
-Sistema acadêmico para fins educacionais - UFPR EAD.
+Sistema acadêmico para fins educacionais.
