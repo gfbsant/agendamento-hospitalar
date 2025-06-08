@@ -9,7 +9,6 @@ router.use(
         target: 'http://ms-paciente:8080',
         changeOrigin: true,
         logLevel: 'debug',
-        pathRewrite: {'^/paciente': '/paciente'}
     })
 );
 

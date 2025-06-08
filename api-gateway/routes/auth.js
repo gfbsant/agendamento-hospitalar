@@ -8,7 +8,6 @@ router.use(
         target: 'http://ms-auth:8080',
         changeOrigin: true,
         logLevel: 'debug',
-        pathRewrite: {'^/auth': '/auth'} // Preserva o prefixo /auth
     })
 );
 
