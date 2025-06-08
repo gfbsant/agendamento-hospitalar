@@ -27,6 +27,32 @@ Este projeto representa um sistema hospitalar baseado em microsserviços, utiliz
 - Node.js 18+ e Angular CLI (caso deseje rodar o front-end separadamente)
 
 ---
+# Configuração de Variáveis de Ambiente (.env)
+
+É necessário criar um arquivo `.env` na raiz do projeto com as seguintes configurações:
+
+```
+MAIL_USERNAME=seu_email@exemplo.com
+MAIL_PASSWORD=sua_senha_de_email
+JWT_SECRET=uma_chave_secreta_para_tokens
+```
+
+## ⚙️ Detalhes das variáveis
+
+| Variável | Descrição |
+|----------|-----------|
+| MAIL_USERNAME | Email utilizado para envio de notificações |
+| MAIL_PASSWORD | Senha do email ou senha de aplicativo (recomendado) |
+| JWT_SECRET | Chave secreta para assinar os tokens JWT de autenticação |
+
+## 📋 Observações importantes
+
+- O arquivo `.env` deve ser criado na raiz do projeto, no mesmo nível do `docker-compose.yml`
+- Este arquivo **não deve** ser adicionado ao controle de versão por motivos de segurança
+- Para serviços Gmail, recomenda-se usar "senhas de aplicativo" em vez da senha principal
+- A variável JWT_SECRET deve ser uma string forte e aleatória
+
+Os contêineres Docker irão carregar automaticamente essas variáveis de ambiente durante a inicialização.
 
 ## ▶️ Subindo o sistema
 
