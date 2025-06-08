@@ -44,14 +44,14 @@ Abra o terminal na pasta `ms-paciente/` e execute:
 ./mvnw clean package -DskipTests
 ```
 
-> Isso vai gerar o arquivo `target/ms-paciente-0.0.1-SNAPSHOT.jar`
+> Isso vai gerar o arquivo `target/ms-paciente-1.jar`
 
 ---
 
 ### 2. Criar imagem Docker
 
 ```bash
-docker build -t ms-paciente-image .
+docker build -t ms-paciente .
 ```
 
 ---
@@ -82,6 +82,25 @@ curl -X POST http://localhost:8080/paciente/registrar \
 curl -X POST http://localhost:8080/paciente/comprar-pontos \
   -H "Content-Type: application/json" \
   -d '{"cpf":"12345678900","valorReais":50,"pontos":10}'
+  
+# Usar pontos
+curl -X POST http://localhost:8080/paciente/usar-pontos \
+  -H "Content-Type: application/json" \
+  -d '{
+    "cpf": "12345678900",
+    "descricao": "Agendamento de consulta",
+    "pontos": 10
+}'
+
+# Cancelar pontos (devolução)
+curl -X POST http://localhost:8080/paciente/cancelar-pontos \
+  -H "Content-Type: application/json" \
+  -d '{
+    "cpf": "12345678900",
+    "descricao": "Cancelamento de consulta",
+    "pontos": 10
+}'
+
 
 # Extrato
 curl http://localhost:8080/paciente/extrato?cpf=12345678900

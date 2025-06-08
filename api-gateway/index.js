@@ -8,7 +8,9 @@ const consultaRoutes = require('./routes/consulta');
 
 app.use(cors());
 
-app.use('/', [authRoutes, pacienteRoutes, consultaRoutes]);
+app.use(authRoutes);
+app.use(pacienteRoutes);
+app.use(consultaRoutes);
 
 app.listen(8080, () => {
     console.log('API Gateway rodando em http://localhost:8080');

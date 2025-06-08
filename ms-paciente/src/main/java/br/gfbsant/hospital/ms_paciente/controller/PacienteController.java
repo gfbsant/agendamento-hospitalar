@@ -3,14 +3,16 @@ package br.gfbsant.hospital.ms_paciente.controller;
 import br.gfbsant.hospital.ms_paciente.dto.CompraPontosDTO;
 import br.gfbsant.hospital.ms_paciente.dto.PacienteDTO;
 import br.gfbsant.hospital.ms_paciente.dto.UsoPontosDTO;
+import br.gfbsant.hospital.ms_paciente.exception.PacienteJaExisteException;
+import br.gfbsant.hospital.ms_paciente.exception.SaldoInsuficienteException;
 import br.gfbsant.hospital.ms_paciente.service.PacienteService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/paciente")
 public class PacienteController {
 
     @Autowired
@@ -20,8 +22,10 @@ public class PacienteController {
     public ResponseEntity<?> registrarPaciente(@RequestBody @Valid PacienteDTO dto) {
         try {
             return ResponseEntity.ok(pacienteService.registrar(dto));
-        } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (PacienteJaExisteException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body("Erro: " + e.getMessage());
         }
     }
 
@@ -30,7 +34,7 @@ public class PacienteController {
         try {
             return ResponseEntity.ok(pacienteService.comprarPontos(dto));
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.internalServerError().body("Erro: " + e.getMessage());
         }
     }
 
@@ -38,8 +42,10 @@ public class PacienteController {
     public ResponseEntity<?> usarPontos(@RequestBody UsoPontosDTO dto) {
         try {
             return ResponseEntity.ok(pacienteService.usarPontos(dto));
-        } catch (Exception e) {
+        } catch (SaldoInsuficienteException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body("Erro: " + e.getMessage());
         }
     }
 
@@ -48,7 +54,7 @@ public class PacienteController {
         try {
             return ResponseEntity.ok(pacienteService.cancelarUso(dto));
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.internalServerError().body("Erro: " + e.getMessage());
         }
     }
 
@@ -57,7 +63,7 @@ public class PacienteController {
         try {
             return ResponseEntity.ok(pacienteService.consultarExtrato(cpf));
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.internalServerError().body("Erro: " + e.getMessage());
         }
     }
 }

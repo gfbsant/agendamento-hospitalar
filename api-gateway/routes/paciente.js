@@ -4,11 +4,12 @@ const { createProxyMiddleware } = require('http-proxy-middleware');
 const router = express.Router();
 
 router.use(
-    '/',
+    '/paciente',
     createProxyMiddleware({
         target: 'http://ms-paciente:8080',
         changeOrigin: true,
-        logLevel: 'debug'
+        logLevel: 'debug',
+        pathRewrite: {'^/paciente': '/paciente'}
     })
 );
 

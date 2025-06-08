@@ -3,6 +3,7 @@ package br.gfbsant.hospital.ms_paciente.entity;
 import jakarta.persistence.*;
 
 @Entity
+@Table(name = "pacientes")
 public class Paciente {
 
     @Id

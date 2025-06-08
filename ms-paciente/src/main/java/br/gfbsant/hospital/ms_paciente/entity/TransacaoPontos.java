@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "transacoes")
 public class TransacaoPontos {
 
     @Id
@@ -24,6 +25,9 @@ public class TransacaoPontos {
     private BigDecimal valorEmReais;
 
     private Integer pontos;
+
+    public TransacaoPontos() {
+    }
 
     public TransacaoPontos(Paciente paciente, String tipo, String descricao, BigDecimal valor, Integer pontos) {
         this.paciente = paciente;
