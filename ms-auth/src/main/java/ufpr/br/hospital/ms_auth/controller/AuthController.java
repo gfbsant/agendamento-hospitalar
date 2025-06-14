@@ -91,4 +91,12 @@ public class AuthController {
     }
 
 
+    @GetMapping("/existe")
+    public ResponseEntity<?> verificarExistencia(@RequestParam(required = false) String email,
+                                                 @RequestParam(required = false) String cpf) {
+        boolean existeEmail = email != null && reposUsuario.findByEmail(email).isPresent();
+        boolean existeCpf = cpf != null && reposUsuario.findByCpf(cpf).isPresent();
+        return ResponseEntity.ok(Map.of("email", existeEmail, "cpf", existeCpf));
+    }
+
 }

@@ -31,7 +31,7 @@ public class PacienteService {
     @Autowired
     private ModelMapper mapper;
 
-    public String registrar(PacienteDTO dto) {
+    public void registrar(PacienteDTO dto) {
         String cpf = dto.getCpf();
         if (pacienteRepo.findByCpf(cpf).isPresent()) {
             throw new PacienteJaExisteException(cpf);
@@ -40,7 +40,6 @@ public class PacienteService {
         Paciente paciente = mapper.map(dto, Paciente.class);
         paciente.setPontos(0);
         pacienteRepo.save(paciente);
-        return "Paciente registrado com sucesso.";
     }
 
     public String comprarPontos(CompraPontosDTO dto) {
@@ -53,7 +52,7 @@ public class PacienteService {
         return "Compra registrada com sucesso.";
     }
 
-    public String usarPontos(UsoPontosDTO dto) {
+    public void usarPontos(UsoPontosDTO dto) {
         Paciente paciente = getPacientePorCpf(dto.getCpf());
         if (paciente.getPontos() < dto.getPontos()) {
             throw new SaldoInsuficienteException();
@@ -64,17 +63,15 @@ public class PacienteService {
         TransacaoPontos transacao = new TransacaoPontos(paciente, "SAIDA", dto.getDescricao(), BigDecimal.ZERO,
                 dto.getPontos());
         transacaoRepo.save(transacao);
-        return "Pontos utilizados com sucesso.";
     }
 
-    public String cancelarUso(UsoPontosDTO dto) {
+    public void cancelarUso(UsoPontosDTO dto) {
         Paciente paciente = getPacientePorCpf(dto.getCpf());
         paciente.setPontos(paciente.getPontos() + dto.getPontos());
         pacienteRepo.save(paciente);
         TransacaoPontos transacao = new TransacaoPontos(paciente, "ENTRADA", dto.getDescricao() +
                 " (Cancelamento)", BigDecimal.ZERO, dto.getPontos());
         transacaoRepo.save(transacao);
-        return "Uso de pontos cancelado com sucesso.";
     }
 
     public Map<String, Object> consultarExtrato(String cpf) {

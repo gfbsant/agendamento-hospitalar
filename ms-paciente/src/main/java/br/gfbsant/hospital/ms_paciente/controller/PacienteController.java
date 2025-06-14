@@ -21,7 +21,8 @@ public class PacienteController {
     @PostMapping("/registrar")
     public ResponseEntity<?> registrarPaciente(@RequestBody @Valid PacienteDTO dto) {
         try {
-            return ResponseEntity.ok(pacienteService.registrar(dto));
+            pacienteService.registrar(dto);
+            return ResponseEntity.ok(dto);
         } catch (PacienteJaExisteException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
         } catch (Exception e) {
@@ -32,7 +33,8 @@ public class PacienteController {
     @PostMapping("/comprar-pontos")
     public ResponseEntity<?> comprarPontos(@RequestBody CompraPontosDTO dto) {
         try {
-            return ResponseEntity.ok(pacienteService.comprarPontos(dto));
+            pacienteService.comprarPontos(dto);
+            return ResponseEntity.ok(dto);
         } catch (Exception e) {
             return ResponseEntity.internalServerError().body("Erro: " + e.getMessage());
         }
@@ -41,7 +43,8 @@ public class PacienteController {
     @PostMapping("/usar-pontos")
     public ResponseEntity<?> usarPontos(@RequestBody UsoPontosDTO dto) {
         try {
-            return ResponseEntity.ok(pacienteService.usarPontos(dto));
+            pacienteService.usarPontos(dto);
+            return ResponseEntity.ok(dto);
         } catch (SaldoInsuficienteException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         } catch (Exception e) {
@@ -52,7 +55,8 @@ public class PacienteController {
     @PostMapping("/cancelar-pontos")
     public ResponseEntity<?> cancelarUsoDePontos(@RequestBody UsoPontosDTO dto) {
         try {
-            return ResponseEntity.ok(pacienteService.cancelarUso(dto));
+            pacienteService.cancelarUso(dto);
+            return ResponseEntity.ok(dto);
         } catch (Exception e) {
             return ResponseEntity.internalServerError().body("Erro: " + e.getMessage());
         }
@@ -66,4 +70,5 @@ public class PacienteController {
             return ResponseEntity.internalServerError().body("Erro: " + e.getMessage());
         }
     }
+
 }

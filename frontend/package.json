@@ -22,7 +22,7 @@
     "@angular/ssr": "^20.0.1",
     "bootstrap": "^5.3.6",
     "express": "^4.18.2",
-    "ngx-bootstrap": "^19.0.2",
+    "ngx-mask": "^19.0.7",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.15.0"

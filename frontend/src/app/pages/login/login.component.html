@@ -1,11 +1,12 @@
 <div class="container d-flex justify-content-center align-items-center" style="height: 100vh;">
   <div class="card p-4" style="width: 400px;">
-    <h4 class="text-center mb-4">Login</h4>
+    <h1 class="text-center mb-4">Login</h1>
 
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
+
       <div class="mb-3">
         <label for="email" class="form-label">Email</label>
-        <input type="email" class="form-control" id="email" formControlName="email" required />
+        <input type="email" class="form-control" id="email" formControlName="email" required/>
       </div>
 
       <div class="mb-3">
@@ -13,16 +14,21 @@
         <input type="password" class="form-control" id="senha" formControlName="senha" required>
       </div>
 
-      <button type="submit" class="btn btn-primary w-100">Entrar</button>
-      <p class="mt-4 text-center">
-        Ainda não tem conta? <a routerLink="/auto-cadastro">Cadastre-se aqui</a>
-      </p>
+      <button type="submit" class="btn btn-primary w-100 my-2">
+
+        Entrar
+      </button>
 
       @if (erroLogin) {
         <div class="alert alert-danger mt-3">
           Email ou senha inválidos.
         </div>
+      } @else if (mensagemSucesso) {
+        <div class="alert alert-success mt-3 text-center">{{ mensagemSucesso }}</div>
       }
+      <p class="mt-3 text-center">
+        Ainda não tem conta? <a routerLink="/auto-cadastro">Cadastre-se aqui</a>
+      </p>
     </form>
   </div>
 </div>
