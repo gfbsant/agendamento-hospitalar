@@ -1,0 +1,39 @@
+<div class="container d-flex justify-content-center align-items-center" style="height: 100vh;">
+  <div class="card p-4" style="width: 500px;">
+    <h4 class="text-center mb-4">Auto Cadastro</h4>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="mb-3">
+        <label class="form-label">Nome:</label>
+        <input class="form-control" formControlName="nome" required/>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Email:</label>
+        <input class="form-control" formControlName="email" required type="email"/>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">CPF:</label>
+        <input class="form-control" formControlName="cpf" required/>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">CEP:</label>
+        <input class="form-control" formControlName="cep" (blur)="buscarCep()" required/>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Numero:</label>
+        <input class="form-control" formControlName="numero" (blur)="buscarCep()" required/>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Endereço:</label>
+        <input class="form-control" formControlName="endereco" readonly required/>
+      </div>
+
+      <button class="btn btn-primary w-100 my-3" type="submit">Cadastrar</button>
+
+      @if (mensagemErro) {
+        <div class="mt-3" style="color:red">{{ mensagemErro }}</div>
+      } @else if (mensagemSucesso) {
+        <div class="mt-3" style="color:green">{{ mensagemSucesso }}</div>
+      }
+    </form>
+  </div>
+</div>

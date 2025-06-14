@@ -7,9 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ufpr.br.hospital.ms_auth.dto.LoginDTO;
 import ufpr.br.hospital.ms_auth.dto.UsuarioDTO;
 import ufpr.br.hospital.ms_auth.entity.Usuario;
@@ -19,6 +17,7 @@ import ufpr.br.hospital.ms_auth.security.JwtService;
 import ufpr.br.hospital.ms_auth.service.UsuarioService;
 
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 public class AuthController {
@@ -79,6 +78,16 @@ public class AuthController {
             LOG.error("Erro ao cadastrar usuário: " + e.getMessage(), e);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Erro ao cadastrar usuário");
         }
+    }
+
+    @DeleteMapping("/usuario")
+    public ResponseEntity<?> deletarUsuarioPorEmail(@RequestParam String email) {
+        Optional<Usuario> usuario = reposUsuario.findByEmail(email);
+        if (usuario.isPresent()) {
+            reposUsuario.delete(usuario.get());
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Usuario deletado com sucesso");
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuario não encontrado");
     }
 
 
