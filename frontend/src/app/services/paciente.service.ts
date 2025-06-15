@@ -22,11 +22,17 @@ export class PacienteService {
     return this.http.post(`${this.apiUrl}/comprar-pontos`, {cpf, pontos, valorReais: valor});
   }
 
-  usarPontos(dados: {cpf: string, descricao: string, pontos: number}) {
+  usarPontos(dados: { cpf: string, descricao: string, pontos: number }) {
     return this.http.post(`${this.apiUrl}/usar-pontos`, dados);
   }
 
-  cancelarPontos(dados: {cpf: string, descricao: string, pontos: number}) {
+  cancelarPontos(dados: { cpf: string, descricao: string, pontos: number }) {
     return this.http.post(`${this.apiUrl}/cancelar-pontos`, dados);
+  }
+
+  getExtrato(cpf: string) {
+    return this.http.get<any>(`${this.apiUrl}/extrato`, {
+      params: {cpf}
+    });
   }
 }

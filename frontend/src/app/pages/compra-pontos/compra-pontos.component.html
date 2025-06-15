@@ -1,1 +1,43 @@
-<p>compra-pontos works!</p>
+<div class="container d-flex justify-content-center">
+  <div class="card shadow border-success" style="max-width: 500px; width: 100%;">
+    <div class="card-header bg-success text-white text-center">
+      <h4 class="card-title mb-0">
+        <i class="bi bi-cart-plus"></i> Comprar Pontos
+      </h4>
+    </div>
+    <div class="card-body p-4">
+      <form [formGroup]="form" (ngSubmit)="comprar()">
+
+        <div class="mb-4">
+          <label for="pontos" class="form-label">Quantidade de pontos:</label>
+          <div class="input-group">
+            <span class="input-group-text" style="cursor: pointer;" (click)="incrementarPontos()"><i class="bi bi-plus-circle"></i></span>
+            <input type="number" id="pontos" formControlName="pontos" min="1" class="form-control form-control-lg" placeholder="Digite a quantidade"/>
+          </div>
+          <small class="text-muted mt-2">Mínimo de 1 ponto</small>
+        </div>
+
+        <div class="alert mb-4 bg-secondary-subtle">
+          <div class="d-flex justify-content-between align-items-center">
+            <span class="fw-bold">Total a pagar:</span>
+            <span class="fs-4 text-success fw-bold">R$ {{valorTotal | number: '1.2-2'}}</span>
+          </div>
+        </div>
+
+        <div class="d-grid gap-2">
+          <button type="submit" [disabled]="form.invalid" class="btn btn-success btn-lg">
+            <i class="bi bi-credit-card me-2"></i>Confirmar Compra
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <div class="card-footer bg-light">
+      @if (mensagem) {
+        <div class="alert" [ngClass]="{'alert-success': !mensagem.includes('erro'), 'alert-danger': mensagem.includes('erro')}">
+          {{ mensagem }}
+        </div>
+      }
+    </div>
+  </div>
+</div>

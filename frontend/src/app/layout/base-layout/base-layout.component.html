@@ -1,15 +1,15 @@
 <nav class="navbar bg-success sticky-top mb-1  p-1">
   <div class="container-fluid">
     <div class="d-flex align-items-center">
-      <a class="navbar-brand fs-3 me-4"
+      <a routerLink="{{getHomePath()}}" class="navbar-brand fs-3 me-3"
          style="font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif; color:#ffffff;">
-        <i class="bi bi-hospital mx-1"></i>
+        <i class="bi bi-hospital mx-1 shadow"></i>
         HOSPITADS
       </a>
       <ul class="nav gap-3 justify-content-start">
         @if (tipo === 'PACIENTE') {
           <a routerLink="/paciente-home" class="{{getButtonClass('/paciente-home')}}">Início</a>
-          <a routerLink="/comprar-pontos" class="{{getButtonClass('/comprar-pontos')}}">Extrato de Pontos</a>
+          <a routerLink="/extrato-pontos" class="{{getButtonClass('/extrato-pontos')}}">Extrato de Pontos</a>
           <a routerLink="/agendar-consulta" class="{{getButtonClass('/agendar-consulta')}}">Agendar Consulta</a>
         }
 
@@ -20,7 +20,7 @@
       </ul>
     </div>
 
-    <button (click)="logout()" class="btn btn-danger btn-sm">Sair</button>
+    <button (click)="logout()" class="btn btn-danger btn-sm shadow">Sair</button>
   </div>
 </nav>
 

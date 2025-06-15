@@ -13,6 +13,7 @@ import {Router, RouterLink, RouterOutlet} from '@angular/router';
   styleUrl: './base-layout.component.css'
 })
 export class BaseLayoutComponent implements OnInit {
+
   tipo: "PACIENTE" | "FUNCIONARIO" | null = null;
 
   constructor(private auth: AuthService, private router: Router) {
@@ -31,9 +32,16 @@ export class BaseLayoutComponent implements OnInit {
   getButtonClass(route: string): string {
     var isCurrentRoute = this.router.url === route;
     if (isCurrentRoute) {
-      return "btn btn-outline-light active btn-sm";
+      return "btn btn-outline-light active btn-sm shadow";
     } else {
-      return "btn btn-outline-light btn-sm";
+      return "btn btn-outline-light btn-sm shadow";
     }
+  }
+
+  getHomePath(): string {
+    if (this.tipo) {
+      return this.tipo === 'PACIENTE' ? '/paciente-home': '/funcionario-home';
+    }
+    return '';
   }
 }

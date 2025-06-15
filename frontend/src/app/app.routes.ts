@@ -1,10 +1,11 @@
 import {Routes} from '@angular/router';
-import {DashboardComponent} from './pages/dashboard/dashboard.component';
 import {authGuard} from './guards/auth.guard';
 import {AutoCadastroComponent} from './pages/auto-cadastro/auto-cadastro.component';
 import {BaseLayoutComponent} from './layout/base-layout/base-layout.component';
 import {LoginComponent} from './pages/login/login.component';
 import {PacienteHomeComponent} from './pages/paciente/paciente-home/paciente-home.component';
+import {CompraPontosComponent} from './pages/compra-pontos/compra-pontos.component';
+import {ExtratoPontosComponent} from './pages/extrato-pontos/extrato-pontos.component';
 
 export const routes: Routes = [
   {
@@ -19,7 +20,9 @@ export const routes: Routes = [
     component: BaseLayoutComponent,
     canActivate: [authGuard],
     children: [
-      {path: 'paciente-home', component: PacienteHomeComponent}
+      {path: 'paciente-home', component: PacienteHomeComponent},
+      {path: 'comprar-pontos', component: CompraPontosComponent},
+      {path: 'extrato-pontos', component: ExtratoPontosComponent},
     ]
   },
   {

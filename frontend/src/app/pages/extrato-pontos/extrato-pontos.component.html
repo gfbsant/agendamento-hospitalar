@@ -1,0 +1,70 @@
+<div class="container d-flex justify-content-center" style="min-height: 80vh;">
+  <div class="card shadow border-success" style="max-width: 800px; width: 100%;">
+    <div class="card-header bg-success text-white text-center">
+      <h3 class="card-title mb-0">
+        <i class="bi bi-file-earmark-diff me-2"></i>Extrato
+      </h3>
+    </div>
+
+    <div class="card-body p-4">
+
+      <div class="row mb-4">
+        <div class="col-md-4">
+          <div class="d-flex flex-column h-100">
+            <span class="text-muted">Saldo Atual:</span>
+            <h5>{{ pontos }} pontos</h5>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="d-flex flex-column justify-content-center h-100">
+            <span class="text-muted">Nome:</span>
+            <h5>{{ nome }}</h5>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="d-flex flex-column justify-content-center h-100">
+            <span class="text-muted">CPF:</span>
+            <h5>{{ cpf | mask: '000.000.000-00' }}</h5>
+          </div>
+        </div>
+      </div>
+
+      <div class="table-responsive">
+        <table class="table table-striped table-hover">
+          <thead class="table-success">
+          <tr>
+            <th>Data</th>
+            <th>Descrição</th>
+            <th>Pontos</th>
+            <th>Valor (R$)</th>
+            <th>Tipo</th>
+          </tr>
+          </thead>
+          <tbody>
+            @for (item of extrato; track item.data) {
+              <tr>
+                <td>{{ item.data | date: 'dd/MM/yyyy HH:mm' }}</td>
+                <td>{{ item.descricao }}</td>
+                <td class="fw-bold" [ngClass]="item.tipo === 'ENTRADA' ? 'text-success' : 'text-danger'">
+                  {{ item.tipo === 'ENTRADA' ? '+' : '-' }}{{ item.pontos }}
+                </td>
+                <td>{{ item.valorEmReais | number:'1.2-2' }}</td>
+                <td>
+                  <span class="badge rounded-pill" [ngClass]="item.tipo === 'ENTRADA' ? 'bg-success' : 'bg-danger'">
+                    {{ item.tipo }}
+                  </span>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card-footer bg-light text-center">
+      <a routerLink="/comprar-pontos" class="btn btn-outline-success">
+        <i class="bi bi-plus-circle me-2"></i>Adicionar Pontos
+      </a>
+    </div>
+  </div>
+</div>
