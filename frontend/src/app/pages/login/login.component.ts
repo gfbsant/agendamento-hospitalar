@@ -1,7 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, PLATFORM_ID} from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {AuthService} from '../../services/auth.service';
-import {Router, RouterLink} from '@angular/router';
+import {RouterLink} from '@angular/router';
+import {isPlatformBrowser} from '@angular/common';
 
 
 @Component({
@@ -21,7 +22,7 @@ export class LoginComponent implements OnInit {
   mensagemSucesso = '';
   loading = false;
 
-  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {
+  constructor(private fb: FormBuilder, private authService: AuthService) {
     this.form = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       senha: ['', Validators.required],
@@ -29,10 +30,12 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
-    const mensagemSucesso = sessionStorage.getItem('cadastroSucesso');
-    if (mensagemSucesso) {
-      this.mensagemSucesso = mensagemSucesso
-      sessionStorage.removeItem('cadastroSucesso')
+    if (isPlatformBrowser(PLATFORM_ID)) {
+      const mensagemSucesso = sessionStorage.getItem('cadastroSucesso');
+      if (mensagemSucesso) {
+        this.mensagemSucesso = mensagemSucesso;
+        sessionStorage.removeItem('cadastroSucesso');
+      }
     }
   }
 
@@ -42,11 +45,10 @@ export class LoginComponent implements OnInit {
       const {email, senha} = this.form.value;
       this.authService.login(email, senha).subscribe({
         next: (res) => {
-          localStorage.setItem('token', res.token);
           console.log('Login OK: ', res.token);
+          this.authService.setToken(res.token);
           this.loading = false;
           this.erroLogin = false;
-          this.router.navigate(['/dashboard'])
         },
         error: () => {
           this.loading = false;

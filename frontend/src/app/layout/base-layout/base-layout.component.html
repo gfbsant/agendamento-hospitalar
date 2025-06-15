@@ -1,0 +1,29 @@
+<nav class="navbar bg-success sticky-top mb-1  p-1">
+  <div class="container-fluid">
+    <div class="d-flex align-items-center">
+      <a class="navbar-brand fs-3 me-4"
+         style="font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif; color:#ffffff;">
+        <i class="bi bi-hospital mx-1"></i>
+        HOSPITADS
+      </a>
+      <ul class="nav gap-3 justify-content-start">
+        @if (tipo === 'PACIENTE') {
+          <a routerLink="/paciente-home" class="{{getButtonClass('/paciente-home')}}">Início</a>
+          <a routerLink="/comprar-pontos" class="{{getButtonClass('/comprar-pontos')}}">Extrato de Pontos</a>
+          <a routerLink="/agendar-consulta" class="{{getButtonClass('/agendar-consulta')}}">Agendar Consulta</a>
+        }
+
+        @if (tipo === 'FUNCIONARIO') {
+          <a routerLink="/funcionario-home" class="btn btn-outline-light btn-sm me-3">Pacientes</a>
+          <a routerLink="/consultas" class="btn btn-outline-light btn-sm">Consultas</a>
+        }
+      </ul>
+    </div>
+
+    <button (click)="logout()" class="btn btn-danger btn-sm">Sair</button>
+  </div>
+</nav>
+
+<main style="padding: 1rem;">
+  <router-outlet></router-outlet>
+</main>

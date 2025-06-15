@@ -26,6 +26,7 @@ public class JwtService {
         return Jwts.builder()
                 .subject(usuario.getEmail())
                 .claim("tipo", usuario.getTipo())
+                .claim("cpf", usuario.getCpf())
                 .issuedAt(new Date())
                 .expiration(Date.from(LocalDateTime.now().plusHours(8)
                         .atZone(ZoneId.systemDefault()).toInstant()))
@@ -33,16 +34,4 @@ public class JwtService {
                 .compact();
     }
 
-    public String extrairEmail(String token) {
-        return Jwts.parser()
-                .verifyWith(key)
-                .build()
-                .parseSignedClaims(token)
-                .getPayload()
-                .getSubject();
-    }
-
-    public boolean validarToken(String token, Usuario usuario) {
-        return extrairEmail(token).equals(usuario.getEmail());
-    }
 }

@@ -42,14 +42,13 @@ public class PacienteService {
         pacienteRepo.save(paciente);
     }
 
-    public String comprarPontos(CompraPontosDTO dto) {
+    public void comprarPontos(CompraPontosDTO dto) {
         Paciente paciente = getPacientePorCpf(dto.getCpf());
         paciente.setPontos(paciente.getPontos() + dto.getPontos());
         pacienteRepo.save(paciente);
         TransacaoPontos transacao = new TransacaoPontos(paciente, "ENTRADA", "Compra de pontos",
                 dto.getValorReais(), dto.getPontos());
         transacaoRepo.save(transacao);
-        return "Compra registrada com sucesso.";
     }
 
     public void usarPontos(UsoPontosDTO dto) {
@@ -98,5 +97,15 @@ public class PacienteService {
 
     private Paciente getPacientePorCpf(String cpf) {
         return pacienteRepo.findByCpf(cpf).orElseThrow(() -> new PacienteNaoEncontradoException(cpf));
+    }
+
+    public PacienteDTO recuperarPerfil(String cpf) throws PacienteNaoEncontradoException {
+        Paciente entity = getPacientePorCpf(cpf);
+        return mapper.map(entity, PacienteDTO.class);
+    }
+
+    public Integer recuperarSaldo(String cpf) {
+        Paciente entity = getPacientePorCpf(cpf);
+        return entity.getPontos();
     }
 }

@@ -71,4 +71,21 @@ public class PacienteController {
         }
     }
 
+    @GetMapping("/perfil")
+    public ResponseEntity<?> recuperarPerfil(@RequestParam String cpf) {
+        try {
+            return ResponseEntity.ok(pacienteService.recuperarPerfil(cpf));
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body("Erro: " + e.getMessage());
+        }
+    }
+
+    @GetMapping("/saldo")
+    public ResponseEntity<?> recuperarSaldo(@RequestParam String cpf) {
+        try {
+            return ResponseEntity.ok(pacienteService.recuperarSaldo(cpf));
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body("Erro: " + e.getMessage());
+        }
+    }
 }

@@ -4,13 +4,13 @@ import {CommonModule} from '@angular/common';
 import {HttpClient} from '@angular/common/http';
 import {ViaCepService} from '../../services/via-cep.service';
 import {NgxMaskDirective, provideNgxMask} from 'ngx-mask';
-import {Router} from '@angular/router';
+import {Router, RouterLink} from '@angular/router';
 
 @Component({
   standalone: true,
   selector: 'app-auto-cadastro',
   imports: [
-    ReactiveFormsModule, CommonModule, NgxMaskDirective
+    ReactiveFormsModule, CommonModule, NgxMaskDirective, RouterLink
   ],
   providers: [
     provideNgxMask()
@@ -76,7 +76,7 @@ export class AutoCadastroComponent {
               'Sua senha foi enviada para o email ' + this.form.get('email')?.value);
             this.form.reset();
             this.loading = false;
-            this.router.navigate(['/login'])
+          this.router.navigate(['/login'])
           },
           error: () => {
             this.mensagemErro = 'Erro ao registrar paciente. Revertendo...';

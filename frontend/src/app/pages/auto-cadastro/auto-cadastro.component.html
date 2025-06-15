@@ -1,6 +1,9 @@
 <div class="container d-flex justify-content-center align-items-center" style="height: 100vh;">
+  <button class="btn btn-link position-absolute" style="top: 10px; left: 10px;" routerLink="/login">
+    <i class="bi bi-arrow-left-circle-fill fs-1"></i>
+  </button>
   <div class="card p-4" style="width: 500px;">
-    <h1 class="text-center mb-4">Auto Cadastro</h1>
+    <h1 class="text-center mb-3">Auto Cadastro</h1>
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
       <div class="mb-3">
         <label class="form-label">Nome:</label>
@@ -11,7 +14,7 @@
         <input class="form-control" formControlName="email" (blur)="verificarEmail()"
                required type="email"/>
         @if (emailOcupado) {
-          <small style="color: red; margin-left: 5px">Email já cadastrado</small>
+          <small style="color: red">Email já cadastrado.</small>
         }
       </div>
       <div class="mb-3">
@@ -19,7 +22,7 @@
         <input class="form-control" formControlName="cpf" (blur)="verificarCpf()"
                required mask="000.000.000-00" placeholder="000.000.000-00"/>
         @if (cpfOcupado) {
-          <small style="color: red; margin-left: 5px">CPF já cadastrado</small>
+          <small style="color: red">CPF já cadastrado.</small>
         }
       </div>
       <div class="mb-3">
@@ -35,7 +38,7 @@
         <input class="form-control" formControlName="endereco" readonly required/>
       </div>
 
-      <button class="btn btn-primary w-100 my-3" type="submit" [disabled]="form.invalid || emailOcupado || cpfOcupado">
+      <button class="btn btn-primary w-100 my-2" type="submit" [disabled]="form.invalid || emailOcupado || cpfOcupado">
         @if (loading) {
           <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
         } @else {
