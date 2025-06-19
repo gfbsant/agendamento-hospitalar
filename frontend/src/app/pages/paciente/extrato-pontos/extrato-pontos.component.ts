@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {PacienteService} from '../../services/paciente.service';
-import {AuthService} from '../../services/auth.service';
+import {PacienteService} from '../../../services/paciente.service';
+import {AuthService} from '../../../services/auth.service';
 import {RouterLink} from '@angular/router';
 import {NgxMaskPipe, provideNgxMask} from 'ngx-mask';
 

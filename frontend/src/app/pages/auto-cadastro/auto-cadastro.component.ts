@@ -71,12 +71,12 @@ export class AutoCadastroComponent {
         this.http.post('http://localhost:8080/paciente/registrar', paciente, {
           observe: 'response'
         }).subscribe({
-          next: (response) => {
+          next: () => {
             sessionStorage.setItem('cadastroSucesso', 'Cadastro realizado com sucesso! ' +
               'Sua senha foi enviada para o email ' + this.form.get('email')?.value);
-            this.form.reset();
             this.loading = false;
-          this.router.navigate(['/login'])
+            this.form.reset();
+            this.router.navigate(['/login'])
           },
           error: () => {
             this.mensagemErro = 'Erro ao registrar paciente. Revertendo...';

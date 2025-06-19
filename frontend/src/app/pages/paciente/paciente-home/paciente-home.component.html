@@ -1,7 +1,8 @@
-<div class="card shadow border-success mb-4">
+<!-- Card Saldo -->
+<div class="card shadow border-success-subtle mb-4">
   <div class="card-header bg-success text-white">
     <h3 class="card-title mb-0 text-center">
-      <i class="bi bi-wallet2 me-2"></i>Saldo Atual</h3>
+      <i class="bi bi-wallet2 me-3"></i>Saldo Atual</h3>
   </div>
   <div class="card-body text-center">
     <h2 class="display-3 fw-bold text-success">{{ saldo }}<small class="fs-4"> pontos</small></h2>
@@ -13,5 +14,84 @@
         <i class="bi bi-plus-circle"></i> Adicionar Pontos
       </a>
     </div>
+  </div>
+</div>
+
+<!-- Card Agendamentos Ativos -->
+<div class="card shadow border-primary-subtle mb-4">
+  <div class="card-header bg-primary text-white">
+    <h3 class="card-title mb-0 text-center">
+      <i class="bi bi-calendar-check me-3"></i>Agendamentos Ativos</h3>
+  </div>
+  <div class="card-body">
+    @if (temAgendamentosAtivos()) {
+      <ul class="list-group list-group-flush">
+        @for (item of filtrarPorStatus('CRIADO'); track item.data) {
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <div>
+              <span class="badge bg-info rounded-pill me-2">Agendado</span>
+              <strong>{{ item.dataHora | date:'short' }}</strong> - {{ item.medico }}
+            </div>
+            <span class="badge bg-secondary">{{ item.especialidade }}</span>
+          </li>
+        }
+        @for (item of filtrarPorStatus('CHECK_IN'); track item.data) {
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <div>
+              <span class="badge bg-warning rounded-pill me-2">Check-in</span>
+              <strong>{{ item.dataHora | date:'short' }}</strong> - {{ item.medico }}
+            </div>
+            <span class="badge bg-secondary">{{ item.especialidade }}</span>
+          </li>
+        }
+      </ul>
+    } @else {
+      <div class="text-center py-4">
+        <i class="bi bi-calendar-x text-muted" style="font-size: 3rem;"></i>
+        <p class="text-muted mt-3">Nenhum agendamento criado ou em check-in encontrado.</p>
+      </div>
+    }
+  </div>
+  <div class="card-footer bg-light">
+    <div class="d-grid">
+      <a routerLink="/agendar" class="btn btn-outline-primary">
+        <i class="bi bi-calendar-plus"></i> Novo Agendamento
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- Card Histórico -->
+<div class="card shadow border-secondary-subtle mb-4">
+  <div class="card-header bg-secondary text-white">
+    <h3 class="card-title mb-0 text-center">
+      <i class="bi bi-clock-history me-3"></i>Histórico</h3>
+  </div>
+  <div class="card-body">
+    @if (temHistorico()) {
+      <ul class="list-group list-group-flush">
+        @for (item of filtrarPorStatus('REALIZADO'); track item.data) {
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <div>
+              <span class="badge bg-success rounded-pill me-2">Realizado</span>
+              <strong>{{ item.dataHora | date:'short' }}</strong> - {{ item.medico }}
+            </div>
+          </li>
+        }
+        @for (item of filtrarPorStatus('CANCELADO'); track item.data) {
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <div>
+              <span class="badge bg-danger rounded-pill me-2">Cancelado</span>
+              <strong>{{ item.dataHora | date:'short' }}</strong> - {{ item.medico }}
+            </div>
+          </li>
+        }
+      </ul>
+    } @else {
+      <div class="text-center py-4">
+        <i class="bi bi-journal-x text-muted" style="font-size: 3rem;"></i>
+        <p class="text-muted mt-3">Nenhum realizado ou cancelado encontrado.</p>
+      </div>
+    }
   </div>
 </div>

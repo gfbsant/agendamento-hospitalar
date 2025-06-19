@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
-import {PacienteService} from '../../services/paciente.service';
-import {AuthService} from '../../services/auth.service';
+import {PacienteService} from '../../../services/paciente.service';
+import {AuthService} from '../../../services/auth.service';
 import {Router} from '@angular/router';
 import {CommonModule, DecimalPipe} from '@angular/common';
 
