@@ -31,7 +31,7 @@ export class ExtratoPontosComponent implements OnInit {
         this.nome = response.nome;
         this.cpf = response.cpf;
         this.pontos = response.pontos;
-        this.extrato = response.extrato;
+        this.extrato = response.extrato.slice().reverse();
       })
     }
   }

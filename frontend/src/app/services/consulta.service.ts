@@ -17,8 +17,8 @@ export class ConsultaService {
     });
   }
 
-  getConsultasDisponiveis() {
-    return this.http.get(`${this.apiUrl}/disponiveis`);
+  getConsultasDisponiveis(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/disponiveis`);
   }
 
   agendarConsulta(dados: {

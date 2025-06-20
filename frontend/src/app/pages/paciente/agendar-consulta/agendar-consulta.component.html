@@ -1,0 +1,95 @@
+<div class="container py-4">
+  <h2 class="text-center mb-4">Agendar Consulta</h2>
+
+  @if (mensagem) {
+    <div class="alert alert-{{ tipoMensagem }} shadow-sm">{{ mensagem }}</div>
+  }
+
+  <div class="row justify-content-center">
+    <!-- Card de Consultas Disponíveis -->
+    <div class="col-lg-6">
+      <div class="card shadow border-primary mb-4">
+        <div class="card-header bg-primary text-white">
+          <h3 class="card-title mb-0 text-center">
+            <i class="bi bi-calendar-plus me-2"></i>Consultas Disponíveis
+          </h3>
+        </div>
+        <div class="card-body p-0">
+          @if (consultas.length) {
+            <ul class="list-group list-group-flush">
+              @for (consulta of consultas; track consulta.data) {
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                  <div>
+                    <strong>{{ consulta.dataHora | date:'short' }}</strong>
+                    <div>{{ consulta.especialidade }} - {{ consulta.medico }}
+                    </div>
+                    <span class="text-success fw-bold">R$ {{ consulta.valor }}</span>
+                  </div>
+                  <button class="btn btn-sm btn-primary" (click)="selecionar(consulta)">
+                    <i class="bi bi-check-circle me-1"></i>Selecionar
+                  </button>
+                </li>
+              }
+            </ul>
+          } @else {
+            <div class="text-center py-4">
+              <i class="bi bi-calendar-x text-muted" style="font-size: 3rem;"></i>
+              <p class="text-muted mt-3">Não há consultas disponíveis no momento.</p>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+
+    <!-- Card de Agendamento -->
+    @if (form.value.codigoConsulta) {
+      <div class="col-lg-6">
+        <div class="card shadow border-success mb-4">
+          <div class="card-header bg-success text-white">
+            <h3 class="card-title mb-0 text-center">
+              <i class="bi bi-check2-square me-2"></i>Confirmar Agendamento
+            </h3>
+          </div>
+          <div class="card-body">
+            <form [formGroup]="form" (ngSubmit)="agendar()">
+              <div class="mb-3">
+                <div class="d-flex justify-content-between">
+                  <span class="text-muted">Valor da consulta:</span>
+                  <span class="fw-bold">R$ {{ form.value.valorConsulta }}</span>
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label">Pontos a usar:</label>
+                <input type="number"
+                       formControlName="pontos"
+                       class="form-control"
+                       [max]="saldoPontos"
+                       min="0"
+                       [placeholder]="'Máximo disponível: ' + saldoPontos" />
+                <div class="form-text text-success">
+                  <i class="bi bi-piggy-bank me-1"></i>
+                  Desconto aplicado: R$ {{ form.value.pontos * 5 || 0 }}
+                </div>
+              </div>
+
+              <div class="mb-4 p-2 bg-light rounded">
+                <div class="d-flex justify-content-between">
+                  <span class="fw-bold">Valor final:</span>
+                  <span class="fs-5 text-success fw-bold">R$ {{ form.value.valorFinal }}</span>
+                </div>
+              </div>
+
+              <div class="d-grid">
+                <button class="btn btn-success" type="submit" [disabled]="form.invalid">
+                  <i class="bi bi-calendar-check me-1"></i>
+                  Confirmar Agendamento
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+</div>

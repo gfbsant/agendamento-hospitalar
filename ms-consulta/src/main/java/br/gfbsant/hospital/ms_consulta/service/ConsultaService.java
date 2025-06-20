@@ -28,7 +28,7 @@ public class ConsultaService {
     private AgendamentoRepository agendamentoRepository;
 
     public List<ConsultaDTO> listarDisponiveis() {
-        return consultaRepository.findByStatus(StatusConsulta.DISPONIVEL).stream().map(consulta -> {
+        return consultaRepository.findByStatus(StatusConsulta.DISPONÍVEL).stream().map(consulta -> {
             ConsultaDTO dto = new ConsultaDTO();
             BeanUtils.copyProperties(consulta, dto);
             return dto;
@@ -39,7 +39,7 @@ public class ConsultaService {
         Consulta consulta = consultaRepository.findByCodigo(dto.getCodigoConsulta()).orElseThrow(
                 () -> new RuntimeException("Consulta não encontrada.")
         );
-        if (!StatusConsulta.DISPONIVEL.equals(consulta.getStatus()) || consulta.getVagas() < 1) {
+        if (!StatusConsulta.DISPONÍVEL.equals(consulta.getStatus()) || consulta.getVagas() < 1) {
             throw new RuntimeException("Consulta não disponivel");
         }
         consulta.setVagas(consulta.getVagas() - 1);
@@ -61,6 +61,7 @@ public class ConsultaService {
             dto.setCodigo(agendamento.getCodigo());
             dto.setEspecialidade(agendamento.getConsulta().getEspecialidade());
             dto.setDataHora(agendamento.getConsulta().getDataHora());
+            dto.setMedico(agendamento.getConsulta().getMedico());
             dto.setStatus(agendamento.getStatus());
             return dto;
         }).toList();

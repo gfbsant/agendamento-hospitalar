@@ -40,7 +40,9 @@ export class CompraPontosComponent {
       next: () => {
         this.mensagem = 'Compra realizada com sucesso!';
         this.form.reset();
-        this.router.navigate(['/paciente-home'])
+        setTimeout(() => {
+          this.router.navigate(['/paciente-home'])
+        }, 1500);
       }, error: (e) => {
         console.log(e);
         this.mensagem = 'Erro ao processar a compra.';

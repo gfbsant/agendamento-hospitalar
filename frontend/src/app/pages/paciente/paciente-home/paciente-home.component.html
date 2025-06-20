@@ -26,22 +26,24 @@
   <div class="card-body">
     @if (temAgendamentosAtivos()) {
       <ul class="list-group list-group-flush">
-        @for (item of filtrarPorStatus('CRIADO'); track item.data) {
+        @for (agendamento of filtrarPorStatus('CRIADO'); track agendamento.data) {
           <li class="list-group-item d-flex justify-content-between align-items-center">
             <div>
-              <span class="badge bg-info rounded-pill me-2">Agendado</span>
-              <strong>{{ item.dataHora | date:'short' }}</strong> - {{ item.medico }}
+              <strong>{{ agendamento.dataHora | date:'short' }}</strong>
+              <div>
+                {{ agendamento.medico }} - {{agendamento.especialidade}}
+              </div>
             </div>
-            <span class="badge bg-secondary">{{ item.especialidade }}</span>
+            <span class="badge bg-info rounded-pill me-2">Agendado</span>
           </li>
         }
-        @for (item of filtrarPorStatus('CHECK_IN'); track item.data) {
+        @for (agendamento of filtrarPorStatus('CHECK_IN'); track agendamento.data) {
           <li class="list-group-item d-flex justify-content-between align-items-center">
             <div>
-              <span class="badge bg-warning rounded-pill me-2">Check-in</span>
-              <strong>{{ item.dataHora | date:'short' }}</strong> - {{ item.medico }}
+              <span class="badge bg-secondary">{{ agendamento.especialidade }}</span>
+              <strong>{{ agendamento.dataHora | date:'short' }}</strong> - {{ agendamento.medico }}
             </div>
-            <span class="badge bg-secondary">{{ item.especialidade }}</span>
+            <span class="badge bg-warning rounded-pill me-2">Check-in</span>
           </li>
         }
       </ul>
