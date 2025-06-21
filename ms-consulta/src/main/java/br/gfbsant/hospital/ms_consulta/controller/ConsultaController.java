@@ -33,12 +33,12 @@ public class ConsultaController {
     @PostMapping("/cancelar/{codigo}")
     public ResponseEntity<?> cancelar(@PathVariable String codigo) {
         consultaService.cancelar(codigo);
-        return ResponseEntity.ok("Consulta cancelada com sucesso!");
+        return ResponseEntity.ok(Map.of("msg", "Consulta cancelada com sucesso!"));
     }
 
     @PostMapping("/checkin/{codigo}")
     public ResponseEntity<?> checkIn(@PathVariable String codigo) {
         consultaService.checkIn(codigo);
-        return ResponseEntity.ok("Check-in realizado com sucesso!");
+        return ResponseEntity.ok(Map.of("msg", "Check-in realizado com sucesso!"));
     }
 }

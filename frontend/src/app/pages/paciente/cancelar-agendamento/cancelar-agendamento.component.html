@@ -1,1 +1,92 @@
-<p>cancelar-agendamento works!</p>
+<div class="container py-4">
+        <h2 class="text-center mb-4">Cancelar Agendamento</h2>
+
+        @if (mensagem) {
+          <div class="alert alert-{{ tipoMensagem }} shadow-sm">{{ mensagem }}</div>
+        }
+
+        <div class="row justify-content-center">
+          <!-- Card de Agendamentos Disponíveis -->
+          <div class="col-lg-6" style="max-width: 600px;">
+            <div class="card shadow border-success-subtle mb-4">
+              <div class="card-header bg-success text-white">
+                <h3 class="card-title mb-0 text-center">
+                  <i class="bi bi-calendar-x me-2"></i>Consultas Agendadas
+                </h3>
+              </div>
+              <div class="card-body p-0">
+                @if (agendamentos.length > 0) {
+                  <ul class="list-group list-group-flush">
+                    @for (agendamento of agendamentos; track agendamento.data) {
+                      <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <div>
+                          <strong>{{ agendamento.dataHora | date:'short' }}</strong>
+                          <div>{{ agendamento.medico }} - {{ agendamento.especialidade }}</div>
+                          <span class="badge bg-success">{{ agendamento.status }}</span>
+                        </div>
+                        <button class="btn btn-sm btn-danger" (click)="selecionar(agendamento)">
+                          <i class="bi bi-trash me-1"></i>Selecionar
+                        </button>
+                      </li>
+                    }
+                  </ul>
+                } @else {
+                  <div class="text-center py-4">
+                    <i class="bi bi-calendar-x text-muted" style="font-size: 3rem;"></i>
+                    <p class="text-muted mt-3">Nenhum agendamento cancelável encontrado.</p>
+                  </div>
+                }
+              </div>
+            </div>
+          </div>
+
+          <!-- Card de Confirmação -->
+          @if (agendamentoSelecionado) {
+            <div class="col-lg-6" style="max-width: 600px;">
+              <div class="card shadow border-dark mb-4">
+                <div class="card-header bg-dark text-white">
+                  <h3 class="card-title mb-0 text-center">
+                    <i class="bi bi-exclamation-triangle me-2"></i>Confirmar Cancelamento
+                  </h3>
+                </div>
+                <div class="card-body">
+                  <div class="alert alert-warning">
+                    <i class="bi bi-exclamation-circle"></i> Atenção: Esta ação não poderá ser desfeita.
+                  </div>
+
+                  <h5 class="card-title">Resumo da Consulta</h5>
+                  <ul class="list-group mb-4">
+                    <li class="list-group-item d-flex justify-content-between">
+                      <span>Data e Hora:</span>
+                      <strong>{{ agendamentoSelecionado.dataHora | date:'short' }}</strong>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between">
+                      <span>Médico:</span>
+                      <strong>{{ agendamentoSelecionado.medico }}</strong>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between">
+                      <span>Especialidade:</span>
+                      <strong>{{ agendamentoSelecionado.especialidade }}</strong>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between">
+                      <span>Status:</span>
+                      <span class="badge bg-success">{{ agendamentoSelecionado.status }}</span>
+                    </li>
+                  </ul>
+
+                  <div class="d-grid gap-2">
+                    <button class="btn btn-danger" (click)="cancelar(agendamentoSelecionado)">
+                      <i class="bi bi-calendar-x me-1"></i>
+                      Confirmar Cancelamento
+                    </button>
+                    <button class="btn btn-outline-secondary" (click)="agendamentoSelecionado = null">
+                      <i class="bi bi-arrow-left me-1"></i>
+                      Voltar
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+      </div>

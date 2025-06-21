@@ -12,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestController
 public class PacienteController {
 
@@ -34,7 +36,7 @@ public class PacienteController {
     public ResponseEntity<?> comprarPontos(@RequestBody CompraPontosDTO dto) {
         try {
             pacienteService.comprarPontos(dto);
-            return ResponseEntity.ok(dto);
+            return ResponseEntity.ok(Map.of("msg", "ok"));
         } catch (Exception e) {
             return ResponseEntity.internalServerError().body("Erro: " + e.getMessage());
         }
@@ -44,7 +46,7 @@ public class PacienteController {
     public ResponseEntity<?> usarPontos(@RequestBody UsoPontosDTO dto) {
         try {
             pacienteService.usarPontos(dto);
-            return ResponseEntity.ok(dto);
+            return ResponseEntity.ok(Map.of("msg", "ok"));
         } catch (SaldoInsuficienteException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         } catch (Exception e) {
@@ -56,7 +58,7 @@ public class PacienteController {
     public ResponseEntity<?> cancelarUsoDePontos(@RequestBody UsoPontosDTO dto) {
         try {
             pacienteService.cancelarUso(dto);
-            return ResponseEntity.ok(dto);
+            return ResponseEntity.ok(Map.of("msg", "ok"));
         } catch (Exception e) {
             return ResponseEntity.internalServerError().body("Erro: " + e.getMessage());
         }

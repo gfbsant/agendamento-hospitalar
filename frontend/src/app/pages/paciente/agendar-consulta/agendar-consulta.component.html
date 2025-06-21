@@ -17,7 +17,7 @@
         <div class="card-body p-0">
           @if (consultas.length) {
             <ul class="list-group list-group-flush">
-              @for (consulta of consultas; track consulta.data) {
+              @for (consulta of consultas; track consulta.codigo) {
                 <li class="list-group-item d-flex justify-content-between align-items-center">
                   <div>
                     <strong>{{ consulta.dataHora | date:'short' }}</strong>
