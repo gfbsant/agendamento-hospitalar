@@ -29,7 +29,7 @@ export class ConsultaService {
   }
 
   cancelarAgendamento(codigo: string): Observable<string> {
-    return this.http.post<string>(`${this.apiUrl}/cancelar/${codigo}`, {});
+    return this.http.post<string>(`${this.apiUrl}/cancelar-agendamento/${codigo}`, {});
   }
 
   realizarCheckIn(codigo: string) {

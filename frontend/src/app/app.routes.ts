@@ -8,6 +8,7 @@ import {CompraPontosComponent} from './pages/paciente/compra-pontos/compra-ponto
 import {ExtratoPontosComponent} from './pages/paciente/extrato-pontos/extrato-pontos.component';
 import {AgendarConsultaComponent} from './pages/paciente/agendar-consulta/agendar-consulta.component';
 import {CancelarAgendamentoComponent} from './pages/paciente/cancelar-agendamento/cancelar-agendamento.component';
+import {CheckInComponent} from './pages/paciente/check-in/check-in.component';
 
 export const routes: Routes = [
   {
@@ -26,7 +27,8 @@ export const routes: Routes = [
       {path: 'comprar-pontos', component: CompraPontosComponent},
       {path: 'extrato-pontos', component: ExtratoPontosComponent},
       {path: 'agendar-consulta', component: AgendarConsultaComponent},
-      {path: 'cancelar-consulta', component: CancelarAgendamentoComponent}
+      {path: 'cancelar-consulta', component: CancelarAgendamentoComponent},
+      {path: 'check-in', component: CheckInComponent}
     ]
   },
   {

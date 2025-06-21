@@ -1,8 +1,10 @@
 package br.gfbsant.hospital.ms_consulta.controller;
 
 import br.gfbsant.hospital.ms_consulta.dto.AgendamentoDTO;
+import br.gfbsant.hospital.ms_consulta.dto.NovaConsultaDTO;
 import br.gfbsant.hospital.ms_consulta.service.ConsultaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,6 +15,17 @@ public class ConsultaController {
 
     @Autowired
     private ConsultaService consultaService;
+
+    @PostMapping
+    ResponseEntity<?> cadastrar(@RequestBody NovaConsultaDTO dto) {
+        try {
+            consultaService.cadastrarConsulta(dto);
+            return ResponseEntity.status(HttpStatus.CREATED).body(
+                    Map.of("msg", "Consulta criada"));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     @GetMapping("/disponiveis")
     public ResponseEntity<?> listar() {
@@ -27,18 +40,61 @@ public class ConsultaController {
 
     @GetMapping("/agendamentos")
     public ResponseEntity<?> porPaciente(@RequestParam String cpf) {
-        return ResponseEntity.ok(consultaService.listarPorPaciente(cpf));
+        return ResponseEntity.ok(consultaService.listarAgendamentosPorPaciente(cpf));
     }
 
-    @PostMapping("/cancelar/{codigo}")
-    public ResponseEntity<?> cancelar(@PathVariable String codigo) {
-        consultaService.cancelar(codigo);
+    @PostMapping("/cancelar-agendamento/{codigo}")
+    public ResponseEntity<?> cancelarAgendamento(@PathVariable String codigo) {
+        consultaService.cancelarAgendamento(codigo);
         return ResponseEntity.ok(Map.of("msg", "Consulta cancelada com sucesso!"));
     }
 
     @PostMapping("/checkin/{codigo}")
     public ResponseEntity<?> checkIn(@PathVariable String codigo) {
-        consultaService.checkIn(codigo);
+        consultaService.checkInAgendamento(codigo);
         return ResponseEntity.ok(Map.of("msg", "Check-in realizado com sucesso!"));
     }
+
+    @GetMapping("/proximas")
+    public ResponseEntity<?> proximas48h() {
+        return ResponseEntity.ok(consultaService.listarProximas48h());
+    }
+
+    @PostMapping("/realizar/{codigo}")
+    public ResponseEntity<?> realizar(@PathVariable String codigo) {
+        String errMessage;
+        try {
+            consultaService.realizarConsulta(codigo);
+            return ResponseEntity.ok(Map.of("msg", "Consulta realizada"));
+        } catch (Exception e) {
+            errMessage = e.getMessage();
+        }
+        return ResponseEntity.badRequest().body(Map.of("msg", errMessage));
+    }
+
+    @PostMapping("/cancelar-consulta/{codigo}")
+    public ResponseEntity<?> cancelarConsulta(@PathVariable String codigo) {
+        String errMessage;
+        try {
+            consultaService.cancelarConsulta(codigo);
+            return ResponseEntity.ok(Map.of("msg", "Consulta cancelada"));
+        } catch (Exception e) {
+            errMessage = e.getMessage();
+        }
+        return ResponseEntity.badRequest().body(Map.of("msg", errMessage));
+    }
+
+    @PostMapping("/confirmar/{codigo}")
+    public ResponseEntity<?> confirmarComparecimento(@PathVariable String codigo) {
+        String errMessage;
+        try {
+            consultaService.confirmarComparecimento(codigo);
+            return ResponseEntity.ok(Map.of("msg", "Consulta confirmada"));
+        } catch (Exception e) {
+            errMessage = e.getMessage();
+        }
+        return ResponseEntity.badRequest().body(Map.of("msg", errMessage));
+    }
+
+
 }

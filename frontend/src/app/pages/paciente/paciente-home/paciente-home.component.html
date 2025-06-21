@@ -43,8 +43,10 @@
               @for (agendamento of filtrarPorStatus('CHECK_IN'); track agendamento.codigo) {
                 <li class="list-group-item d-flex justify-content-between align-items-center">
                   <div>
-                    <span class="badge bg-secondary">{{ agendamento.especialidade }}</span>
-                    <strong>{{ agendamento.dataHora | date:'short' }}</strong> - {{ agendamento.medico }}
+                    <strong>{{ agendamento.dataHora | date:'short' }}</strong>
+                    <div>
+                      {{ agendamento.medico }} - {{ agendamento.especialidade }}
+                    </div>
                   </div>
                   <span class="badge bg-warning rounded-pill me-2">Check-in</span>
                 </li>
@@ -78,17 +80,24 @@
               @for (item of filtrarPorStatus('REALIZADO'); track item.codigo) {
                 <li class="list-group-item d-flex justify-content-between align-items-center">
                   <div>
-                    <span class="badge bg-success rounded-pill me-2">Realizado</span>
-                    <strong>{{ item.dataHora | date:'short' }}</strong> - {{ item.medico }}
+                    <strong>{{ item.dataHora | date:'short' }}</strong>
+                    <div>
+                      {{ item.medico }} - {{ item.especialidade }}
+                    </div>
                   </div>
+                  <span class="badge bg-success rounded-pill me-2">Realizado</span>
+
                 </li>
               }
               @for (item of filtrarPorStatus('CANCELADO'); track item.codigo) {
                 <li class="list-group-item d-flex justify-content-between align-items-center">
                   <div>
-                    <span class="badge bg-danger rounded-pill me-2">Cancelado</span>
-                    <strong>{{ item.dataHora | date:'short' }}</strong> - {{ item.medico }}
+                    <strong>{{ item.dataHora | date:'short' }}</strong>
+                    <div>
+                      {{ item.medico }} - {{ item.especialidade }}
+                    </div>
                   </div>
+                  <span class="badge bg-danger rounded-pill me-2">Cancelado</span>
                 </li>
               }
             </ul>

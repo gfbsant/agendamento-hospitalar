@@ -22,6 +22,6 @@ CREATE TABLE agendamentos (
 
 INSERT INTO consultas (codigo, data_hora, especialidade, medico, valor, vagas, status)
 VALUES
-    ('CON001', '2025-08-10 10:30', 'CARD', 'Dr. Paulo', 300.00, 5, 'DISPONÍVEL'),
-    ('CON002', '2025-09-11 09:30', 'PED', 'Dra. Lúcia', 250.00, 4, 'DISPONÍVEL'),
-    ('CON003', '2025-10-12 08:30', 'DERM', 'Dr. Carlos', 200.00, 3, 'DISPONÍVEL');
+    ('CON001', (CURRENT_DATE + INTERVAL '1 day') + TIME '10:30', 'CARD', 'Dr. Paulo', 300.00, 5, 'DISPONÍVEL'),
+    ('CON002', (CURRENT_DATE + INTERVAL '1 day') + TIME '09:30', 'PED', 'Dra. Lúcia', 250.00, 4, 'DISPONÍVEL'),
+    ('CON003', (CURRENT_DATE + INTERVAL '1 day') + TIME '08:30', 'DERM', 'Dr. Carlos', 200.00, 3, 'DISPONÍVEL');

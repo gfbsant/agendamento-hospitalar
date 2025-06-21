@@ -31,7 +31,7 @@ export class CancelarAgendamentoComponent implements OnInit {
       this.consultaService.getAgendamentos(cpf).subscribe({
         next: agendamentos => {
           this.agendamentos = agendamentos.filter(agendamento => agendamento.status === 'CRIADO' ||
-            agendamento.status === 'CHECK-IN');
+            agendamento.status === 'CHECK_IN');
         },
         error: err => {
           this.mostrarMensagem('Erro ao recuperar agendamentos: ' + err, 'danger')
@@ -45,11 +45,14 @@ export class CancelarAgendamentoComponent implements OnInit {
   cancelar(ag: any) {
     this.consultaService.cancelarAgendamento(ag.codigo).subscribe({
       next: () => {
-        const dados = {cpf: this.cpf, descricao: 'Cancelamento de Agendamento', pontos: ag.pontosUtilizados ?? 0}
-        this.pacienteService.cancelarPontos(dados).subscribe();
+        if (ag.pontosUtilizados) {
+          const dados = {cpf: this.cpf, descricao: 'Cancelamento de Agendamento', pontos: ag.pontosUtilizados}
+          this.pacienteService.cancelarPontos(dados).subscribe();
+        }
+
         this.mostrarMensagem("Agendamento cancelado com sucesso");
         this.agendamentos = this.agendamentos.filter(item => item.codigo !== ag.codigo);
-        setTimeout(() => this.router.navigate(['/paciente-home']), 4000);
+        setTimeout(() => this.router.navigate(['/paciente-home']), 3000);
       },
       error: err => this.mostrarMensagem("Erro ao cancelar agendamento: " + err)
     });

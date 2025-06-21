@@ -9,10 +9,10 @@
       <ul class="nav gap-3 justify-content-start">
         @if (tipo === 'PACIENTE') {
           <a routerLink="/paciente-home" class="{{getButtonClass('/paciente-home')}}">Início</a>
-          <a routerLink="/comprar-pontos" class="{{getButtonClass('/comprar-pontos')}}">Comprar Pontos</a>
-          <a routerLink="/extrato-pontos" class="{{getButtonClass('/extrato-pontos')}}">Extrato de Pontos</a>
           <a routerLink="/agendar-consulta" class="{{getButtonClass('/agendar-consulta')}}">Agendar Consulta</a>
+          <a routerLink="/check-in" class="{{getButtonClass('/check-in')}}">Realizar Check-In</a>
           <a routerLink="/cancelar-consulta" class="{{getButtonClass('/cancelar-consulta')}}">Cancelar Consulta</a>
+          <a routerLink="/extrato-pontos" class="{{getButtonClass('/extrato-pontos')}}">Extrato de Pontos</a>
         }
 
         @if (tipo === 'FUNCIONARIO') {
