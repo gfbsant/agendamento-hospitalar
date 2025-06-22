@@ -1,9 +1,6 @@
 package br.gfbsant.hospital.ms_consulta.service;
 
-import br.gfbsant.hospital.ms_consulta.dto.AgendamentoDTO;
-import br.gfbsant.hospital.ms_consulta.dto.AgendamentoResumoDTO;
-import br.gfbsant.hospital.ms_consulta.dto.ConsultaDTO;
-import br.gfbsant.hospital.ms_consulta.dto.NovaConsultaDTO;
+import br.gfbsant.hospital.ms_consulta.dto.*;
 import br.gfbsant.hospital.ms_consulta.entity.Agendamento;
 import br.gfbsant.hospital.ms_consulta.entity.Consulta;
 import br.gfbsant.hospital.ms_consulta.enums.StatusAgendamento;
@@ -18,6 +15,7 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class ConsultaService {
@@ -94,10 +92,21 @@ public class ConsultaService {
         }
     }
 
-    public List<Consulta> listarProximas48h() {
+    public List<ConsultaComAgendamentosDTO> listarProximas48h() {
         LocalDateTime agora = LocalDateTime.now();
         LocalDateTime fim = agora.plusHours(48);
-        return consultaRepository.findProximas(agora, fim);
+        List<Consulta> consultas = consultaRepository.findProximas(agora, fim);
+        return consultas.stream().map(consulta -> {
+            List<Agendamento> agendamentos = agendamentoRepository.findByConsulta(consulta)
+                    .stream().toList();
+            List<AgendamentoConsultaDTO> agendamentosConsultaDTO = agendamentos.stream().map(agendamento ->
+                    new AgendamentoConsultaDTO(agendamento.getCodigo(), agendamento.getPacienteId(),
+                            agendamento.getStatus())
+            ).toList();
+
+            return new ConsultaComAgendamentosDTO(consulta.getCodigo(), consulta.getDataHora(), consulta.getMedico(),
+                    consulta.getEspecialidade(), consulta.getStatus(), agendamentosConsultaDTO);
+        }).toList();
     }
 
     public void confirmarComparecimento(String codigoAgendamento) {

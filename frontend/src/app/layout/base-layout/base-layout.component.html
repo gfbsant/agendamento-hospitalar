@@ -16,8 +16,7 @@
         }
 
         @if (tipo === 'FUNCIONARIO') {
-          <a routerLink="/funcionario-home" class="btn btn-outline-light btn-sm me-3">Pacientes</a>
-          <a routerLink="/consultas" class="btn btn-outline-light btn-sm">Consultas</a>
+          <a routerLink="/funcionario-home" class="{{getButtonClass('/funcionario-home')}}">Início</a>
         }
       </ul>
     </div>

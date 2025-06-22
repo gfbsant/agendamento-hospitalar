@@ -9,6 +9,21 @@ import {ExtratoPontosComponent} from './pages/paciente/extrato-pontos/extrato-po
 import {AgendarConsultaComponent} from './pages/paciente/agendar-consulta/agendar-consulta.component';
 import {CancelarAgendamentoComponent} from './pages/paciente/cancelar-agendamento/cancelar-agendamento.component';
 import {CheckInComponent} from './pages/paciente/check-in/check-in.component';
+import {FuncionarioHomeComponent} from './pages/funcionario/funcionario-home/funcionario-home.component';
+
+export const pacienteRoutes: Routes = [
+  {path: 'paciente-home', component: PacienteHomeComponent},
+  {path: 'comprar-pontos', component: CompraPontosComponent},
+  {path: 'extrato-pontos', component: ExtratoPontosComponent},
+  {path: 'agendar-consulta', component: AgendarConsultaComponent},
+  {path: 'cancelar-consulta', component: CancelarAgendamentoComponent},
+  {path: 'check-in', component: CheckInComponent}
+];
+
+export const funcionarioRoutes: Routes = [
+  {path: 'funcionario-home', component: FuncionarioHomeComponent},
+]
+
 
 export const routes: Routes = [
   {
@@ -23,18 +38,15 @@ export const routes: Routes = [
     component: BaseLayoutComponent,
     canActivate: [authGuard],
     children: [
-      {path: 'paciente-home', component: PacienteHomeComponent},
-      {path: 'comprar-pontos', component: CompraPontosComponent},
-      {path: 'extrato-pontos', component: ExtratoPontosComponent},
-      {path: 'agendar-consulta', component: AgendarConsultaComponent},
-      {path: 'cancelar-consulta', component: CancelarAgendamentoComponent},
-      {path: 'check-in', component: CheckInComponent}
+      ...pacienteRoutes,
+      ...funcionarioRoutes
     ]
   },
   {
     path: '**',
     redirectTo: 'login'
   },
-
-
 ];
+
+
+

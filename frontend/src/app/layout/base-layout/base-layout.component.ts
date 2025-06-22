@@ -42,6 +42,6 @@ export class BaseLayoutComponent implements OnInit {
     if (this.tipo) {
       return this.tipo === 'PACIENTE' ? '/paciente-home': '/funcionario-home';
     }
-    return '';
+    return '/login';
   }
 }

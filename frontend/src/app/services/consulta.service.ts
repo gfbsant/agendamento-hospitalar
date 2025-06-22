@@ -36,4 +36,20 @@ export class ConsultaService {
     return this.http.post(`${this.apiUrl}/checkin/${codigo}`, {});
   }
 
+  getConsultasProximas48h() {
+    return this.http.get<any[]>(`${this.apiUrl}/proximas`);
+  }
+
+  confirmarComparecimento(codigoAgendamento: string) {
+    return this.http.post(`${this.apiUrl}/confirmar/${codigoAgendamento}`, {});
+  }
+
+  cancelarConsulta(codigoConsulta: string) {
+    return this.http.post(`${this.apiUrl}/cancelar-consulta/${codigoConsulta}`, {});
+  }
+
+  realizarConsulta(codigoConsulta: string) {
+    return this.http.post(`${this.apiUrl}/realizar/${codigoConsulta}`, {})
+  }
+
 }

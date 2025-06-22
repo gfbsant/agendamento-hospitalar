@@ -1,1 +1,130 @@
-<p>funcionario-home works!</p>
+<div class="container py-4">
+  @if (mensagem) {
+    <div class="alert alert-{{ tipoMensagem }} shadow-sm">{{ mensagem }}</div>
+  }
+
+  <div class="row justify-content-center">
+    <!-- Card de Consultas Disponíveis -->
+    <div class="col-lg-6" style="max-width: 600px;">
+      <div class="card shadow border-success-subtle mb-4">
+        <div class="card-header bg-success text-white">
+          <h3 class="card-title mb-0 text-center">
+            <i class="bi bi-calendar-week me-2"></i>Consultas nas Próximas 48 Horas
+          </h3>
+        </div>
+        <div class="card-body p-0">
+          @if (consultas.length > 0) {
+            <ul class="list-group list-group-flush">
+              @for (consulta of consultas; track consulta.codigo) {
+                <li class="list-group-item">
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                      <h5 class="mb-1">{{ consulta.codigo }} - {{ consulta.especialidade }}</h5>
+                      <p class="mb-1">
+                        <strong>{{ consulta.dataHora | date: 'short' }}</strong> - Dr(a). {{ consulta.medico }}
+                      </p>
+                      <span class="badge bg-{{ getStatusBadgeClass(consulta.status) }}">{{ consulta.status }}</span>
+                      <span class="badge bg-primary ms-2">{{ consulta.agendamentos?.length || 0 }} pacientes</span>
+                    </div>
+                    <button class="btn btn-sm btn-success" (click)="selecionarConsulta(consulta)">
+                      <i class="bi bi-eye me-1"></i>Detalhes
+                    </button>
+                  </div>
+                </li>
+              }
+            </ul>
+          } @else {
+            <div class="text-center py-4">
+              <i class="bi bi-calendar-x text-muted" style="font-size: 3rem;"></i>
+              <p class="text-muted mt-3">Nenhuma consulta disponível nas próximas 48 horas.</p>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+
+    <!-- Card de Detalhes da Consulta -->
+    @if (consultaSelecionada) {
+      <div class="col-lg-6" style="max-width: 600px;">
+        <div class="card shadow border-primary-subtle mb-4">
+          <div class="card-header bg-primary text-white">
+            <h3 class="card-title mb-0 text-center">
+              <i class="bi bi-clipboard-data me-2"></i>Detalhes da Consulta
+            </h3>
+          </div>
+          <div class="card-body">
+            <h5 class="card-title">Informações da Consulta</h5>
+            <ul class="list-group mb-4">
+              <li class="list-group-item d-flex justify-content-between">
+                <span>Código:</span>
+                <strong>{{ consultaSelecionada.codigo }}</strong>
+              </li>
+              <li class="list-group-item d-flex justify-content-between">
+                <span>Data e Hora:</span>
+                <strong>{{ consultaSelecionada.dataHora | date:'short' }}</strong>
+              </li>
+              <li class="list-group-item d-flex justify-content-between">
+                <span>Médico:</span>
+                <strong>{{ consultaSelecionada.medico }}</strong>
+              </li>
+              <li class="list-group-item d-flex justify-content-between">
+                <span>Especialidade:</span>
+                <strong>{{ consultaSelecionada.especialidade }}</strong>
+              </li>
+              <li class="list-group-item d-flex justify-content-between">
+                <span>Status:</span>
+                <span class="badge bg-{{ getStatusBadgeClass(consultaSelecionada.status) }}">
+                            {{ consultaSelecionada.status }}
+                          </span>
+              </li>
+            </ul>
+
+            <h5 class="card-title">Pacientes Agendados</h5>
+            @if (consultaSelecionada.agendamentos?.length > 0) {
+              <ul class="list-group mb-4">
+                @for (agendamento of consultaSelecionada.agendamentos; track agendamento.codigo) {
+                  <li class="list-group-item">
+                    <div class="d-flex justify-content-between align-items-center">
+                      <div>
+                        <strong>CPF: </strong> {{ agendamento.pacienteId }}
+                        <span class="badge bg-{{ getStatusBadgeClass(agendamento.status) }} ms-2">
+                                    {{ agendamento.status }}
+                                  </span>
+                      </div>
+                      @if (agendamento.status === 'CHECK_IN') {
+                        <button class="btn btn-sm btn-success"
+                                (click)="confirmarComparecimento(agendamento.codigo)">
+                          <i class="bi bi-check-circle me-1"></i>Confirmar
+                        </button>
+                      }
+
+                    </div>
+                  </li>
+                }
+              </ul>
+            } @else {
+              <div class="alert alert-warning">Nenhum paciente agendado para esta consulta.</div>
+            }
+
+            <div class="d-grid gap-2">
+              @if (consultaSelecionada.status === 'DISPONIVEL') {
+                <button class="btn btn-primary" (click)="realizarConsulta(consultaSelecionada.codigo)">
+                  <i class="bi bi-clipboard-check me-1"></i>
+                  Realizar Consulta
+                </button>
+                <button class="btn btn-danger" (click)="cancelarConsulta(consultaSelecionada.codigo)">
+                  <i class="bi bi-x-circle me-1"></i>
+                  Cancelar Consulta
+                </button>
+              }
+              <button class="btn btn-outline-secondary" (click)="consultaSelecionada = null">
+                <i class="bi bi-arrow-left me-1"></i>
+                Voltar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+</div>

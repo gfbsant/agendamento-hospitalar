@@ -39,7 +39,7 @@ export class AuthService {
       if (tipoUsuario === 'PACIENTE') {
         this.router.navigate(['/paciente-home']);
       } else if (tipoUsuario === 'FUNCIONARIO') {
-        this.router.navigate(['/funcionario/home']);
+        this.router.navigate(['/funcionario-home']);
       }
     } catch (e) {
       console.error('Erro ao decodificar token: ', e);
