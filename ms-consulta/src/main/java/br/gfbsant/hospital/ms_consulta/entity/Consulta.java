@@ -19,7 +19,6 @@ public class Consulta {
     private String especialidade;
     private String medico;
     private LocalDateTime dataHora;
-    private String cpfPaciente;
     private BigDecimal valor;
     private Integer vagas;
 
@@ -36,14 +35,6 @@ public class Consulta {
 
     public void setCodigo(String codigo) {
         this.codigo = codigo;
-    }
-
-    public String getCpfPaciente() {
-        return cpfPaciente;
-    }
-
-    public void setCpfPaciente(String cpfPaciente) {
-        this.cpfPaciente = cpfPaciente;
     }
 
     public String getEspecialidade() {

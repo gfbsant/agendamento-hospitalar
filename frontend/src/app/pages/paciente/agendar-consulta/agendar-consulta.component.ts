@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ConsultaService} from '../../../services/consulta.service';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
-import {DatePipe} from '@angular/common';
+import {DatePipe, DecimalPipe} from '@angular/common';
 import {AuthService} from '../../../services/auth.service';
 import {PacienteService} from '../../../services/paciente.service';
 import {Router} from '@angular/router';
@@ -11,7 +11,8 @@ import {Router} from '@angular/router';
   selector: 'app-agendar-consulta',
   imports: [
     DatePipe,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    DecimalPipe
   ],
   templateUrl: './agendar-consulta.component.html',
   styleUrl: './agendar-consulta.component.css'

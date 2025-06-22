@@ -1,0 +1,77 @@
+<div class="container py-4">
+  <div class="card shadow-sm border-success-subtle mb-4" style="max-width: 650px; margin: 0 auto;">
+    <div class="card-header bg-success text-white">
+      <h2 class="text-center mb-0">Cadastro de Consulta</h2>
+    </div>
+    <div class="card-body">
+      @if (mensagem) {
+        <div class="alert alert-{{ tipoMensagem }} shadow-sm">{{ mensagem }}</div>
+      }
+
+      <form [formGroup]="form" (ngSubmit)="cadastrar()">
+        <div class="mb-3">
+          <div class="form-floating">
+            <input type="datetime-local" formControlName="dataHora" class="form-control" id="dataHora"
+                   placeholder="Data e Hora">
+            <label for="dataHora">Data e Hora</label>
+          </div>
+          @if (form.get('dataHora')?.invalid && (form.get('dataHora')?.dirty || form.get('dataHora')?.touched)) {
+            <div class="text-danger small mt-1">Data e hora é obrigatório</div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <div class="form-floating">
+            <input type="text" formControlName="especialidade" class="form-control" id="especialidade"
+                   placeholder="Especialidade">
+            <label for="especialidade">Especialidade</label>
+          </div>
+          @if (form.get('especialidade')?.invalid && (form.get('especialidade')?.dirty || form.get('especialidade')?.touched)) {
+            <div class="text-danger small mt-1">Especialidade é obrigatória</div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <div class="form-floating">
+            <input type="text" formControlName="medico" class="form-control" id="medico"
+                   placeholder="Médico Responsável">
+            <label for="medico">Médico Responsável</label>
+          </div>
+          @if (form.get('medico')?.invalid && (form.get('medico')?.dirty || form.get('medico')?.touched)) {
+            <div class="text-danger small mt-1">Médico responsável é obrigatório</div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <div class="form-floating">
+            <input type="number" step="0.01" formControlName="valor" class="form-control" id="valor"
+                   placeholder="Valor da Consulta (R$)">
+            <label for="valor">Valor da Consulta (R$)</label>
+          </div>
+          @if (form.get('valor')?.invalid && (form.get('valor')?.dirty || form.get('valor')?.touched)) {
+            <div class="text-danger small mt-1">Valor da consulta é obrigatório</div>
+          }
+        </div>
+
+        <div class="mb-4">
+          <div class="form-floating">
+            <input type="number" formControlName="vagas" class="form-control" id="vagas" placeholder="Vagas" min="1">
+            <label for="vagas">Vagas</label>
+          </div>
+          @if (form.get('vagas')?.invalid && (form.get('vagas')?.dirty || form.get('vagas')?.touched)) {
+            <div class="text-danger small mt-1">Número de vagas é obrigatório</div>
+          }
+        </div>
+
+        <div class="d-grid gap-2">
+          <button class="btn btn-success btn-lg" type="submit" [disabled]="form.invalid">
+            <i class="bi bi-calendar-plus me-2"></i>Cadastrar Consulta
+          </button>
+          <button type="button" class="btn btn-outline-secondary" routerLink="/funcionario-home">
+            <i class="bi bi-arrow-left me-2"></i>Voltar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

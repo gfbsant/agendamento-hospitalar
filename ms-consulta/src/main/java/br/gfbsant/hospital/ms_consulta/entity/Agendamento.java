@@ -27,7 +27,6 @@ public class Agendamento {
 
     private Integer pontosUtilizados;
     private BigDecimal valorPago;
-    private Boolean checkIn = false;
 
     public Agendamento() {
     }
@@ -88,11 +87,4 @@ public class Agendamento {
         this.valorPago = valorPago;
     }
 
-    public Boolean getCheckIn() {
-        return checkIn;
-    }
-
-    public void setCheckIn(Boolean checkIn) {
-        this.checkIn = checkIn;
-    }
 }

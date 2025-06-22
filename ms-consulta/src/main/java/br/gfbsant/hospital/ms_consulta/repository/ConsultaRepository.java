@@ -17,4 +17,7 @@ public interface ConsultaRepository extends JpaRepository<Consulta, Long> {
 
     @Query("SELECT c FROM Consulta c WHERE c.dataHora BETWEEN :inicio and :fim")
     List<Consulta> findProximas(@Param("inicio") LocalDateTime inicio, @Param("fim") LocalDateTime fim);
+
+    @Query("SELECT MAX(c.codigo) FROM Consulta c")
+    String findMaxCodigo();
 }

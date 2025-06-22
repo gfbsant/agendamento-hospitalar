@@ -79,18 +79,18 @@
               </li>
             </ul>
 
-            <h5 class="card-title">Pacientes Agendados</h5>
+            <h5 class="card-title">Agendamentos</h5>
             @if (consultaSelecionada.agendamentos?.length > 0) {
               <ul class="list-group mb-4">
                 @for (agendamento of consultaSelecionada.agendamentos; track agendamento.codigo) {
                   <li class="list-group-item">
                     <div class="d-flex justify-content-between align-items-center">
                       <div>
-                        <strong>CPF: </strong> {{ agendamento.pacienteId }}
-                        <span class="badge bg-{{ getStatusBadgeClass(agendamento.status) }} ms-2">
+                        <strong>CPF: </strong> {{ formatarCpf(agendamento.pacienteId) }}
+                      </div>
+                      <span class="badge bg-{{ getStatusBadgeClass(agendamento.status) }} ms-2">
                                     {{ agendamento.status }}
                                   </span>
-                      </div>
                       @if (agendamento.status === 'CHECK_IN') {
                         <button class="btn btn-sm btn-success"
                                 (click)="confirmarComparecimento(agendamento.codigo)">

@@ -52,4 +52,8 @@ export class ConsultaService {
     return this.http.post(`${this.apiUrl}/realizar/${codigoConsulta}`, {})
   }
 
+  cadastrarConsulta(dados: { dataHora: string, especialidade: string, medico: string, valor: number, vagas: number }) {
+    return this.http.post(this.apiUrl, dados)
+  }
+
 }

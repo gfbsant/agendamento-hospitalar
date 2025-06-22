@@ -23,7 +23,7 @@
                     <strong>{{ consulta.dataHora | date:'short' }}</strong>
                     <div>{{ consulta.especialidade }} - {{ consulta.medico }}
                     </div>
-                    <span class="text-success fw-bold">R$ {{ consulta.valor }}</span>
+                    <span class="text-success fw-bold">R$ {{ consulta.valor | number:'1.2-2':'pt-BR' }}</span>
                   </div>
                   <button class="btn btn-sm btn-primary" (click)="selecionar(consulta)">
                     <i class="bi bi-check-circle me-1"></i>Selecionar
@@ -55,7 +55,7 @@
               <div class="mb-3">
                 <div class="d-flex justify-content-between">
                   <span class="text-muted">Valor da consulta:</span>
-                  <span class="fw-bold">R$ {{ form.value.valorConsulta }}</span>
+                  <span class="fw-bold">R$ {{ form.value.valorConsulta | number:'1.2-2':'pt-BR' }}</span>
                 </div>
               </div>
 
@@ -69,14 +69,14 @@
                        [placeholder]="'Máximo disponível: ' + saldoPontos" />
                 <div class="form-text text-success">
                   <i class="bi bi-piggy-bank me-1"></i>
-                  Desconto aplicado: R$ {{ form.value.pontos * 5 || 0 }}
+                  Desconto aplicado: R$ {{ form.value.pontos * 5 || 0 | number:'1.2-2':'pt-BR'}}
                 </div>
               </div>
 
               <div class="mb-4 p-2 bg-light rounded">
                 <div class="d-flex justify-content-between">
                   <span class="fw-bold">Valor final:</span>
-                  <span class="fs-5 text-success fw-bold">R$ {{ form.value.valorFinal }}</span>
+                  <span class="fs-5 text-success fw-bold">R$ {{ form.value.valorFinal | number:'1.2-2':'pt-BR' }}</span>
                 </div>
               </div>
 

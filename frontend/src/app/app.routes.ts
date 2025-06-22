@@ -10,6 +10,7 @@ import {AgendarConsultaComponent} from './pages/paciente/agendar-consulta/agenda
 import {CancelarAgendamentoComponent} from './pages/paciente/cancelar-agendamento/cancelar-agendamento.component';
 import {CheckInComponent} from './pages/paciente/check-in/check-in.component';
 import {FuncionarioHomeComponent} from './pages/funcionario/funcionario-home/funcionario-home.component';
+import {CadastroConsultaComponent} from './pages/funcionario/cadastro-consulta/cadastro-consulta.component';
 
 export const pacienteRoutes: Routes = [
   {path: 'paciente-home', component: PacienteHomeComponent},
@@ -22,6 +23,7 @@ export const pacienteRoutes: Routes = [
 
 export const funcionarioRoutes: Routes = [
   {path: 'funcionario-home', component: FuncionarioHomeComponent},
+  {path: 'cadastro-consulta', component: CadastroConsultaComponent}
 ]
 
 

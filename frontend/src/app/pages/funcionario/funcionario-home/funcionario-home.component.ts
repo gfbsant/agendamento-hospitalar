@@ -82,6 +82,13 @@ export class FuncionarioHomeComponent implements OnInit {
     this.consultaSelecionada = consulta;
   }
 
+  formatarCpf(cpf: string): string {
+    if (!cpf || cpf.length !== 11) {
+      return cpf;
+    }
+    return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+  }
+
   getStatusBadgeClass(status: string): string {
     switch (status) {
       case 'DISPONIVEL':
@@ -93,7 +100,7 @@ export class FuncionarioHomeComponent implements OnInit {
       case 'CANCELADA':
         return 'danger';
       case 'REALIZADO':
-        return 'success';
+        return 'secondary';
       case 'CANCELADO':
         return 'danger';
       case 'FALTOU':

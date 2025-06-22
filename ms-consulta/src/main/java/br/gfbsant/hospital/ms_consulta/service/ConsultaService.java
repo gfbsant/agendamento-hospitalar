@@ -85,7 +85,6 @@ public class ConsultaService {
         if (ChronoUnit.HOURS.between(LocalDateTime.now(), agendamento.getConsulta().getDataHora()) <= 48 &&
                 agendamento.getStatus() == StatusAgendamento.CRIADO) {
             agendamento.setStatus(StatusAgendamento.CHECK_IN);
-            agendamento.setCheckIn(true);
             agendamentoRepository.save(agendamento);
         } else {
             throw new IllegalStateException("Check-in não permitido");
@@ -160,7 +159,7 @@ public class ConsultaService {
 
     public void cadastrarConsulta(NovaConsultaDTO dto) {
         Consulta novaConsulta = new Consulta();
-        novaConsulta.setCodigo(UUID.randomUUID().toString().substring(0, 8));
+        novaConsulta.setCodigo(gerarCodigoConsulta());
         novaConsulta.setDataHora(dto.getDataHora());
         novaConsulta.setEspecialidade(dto.getEspecialidade());
         novaConsulta.setMedico(dto.getMedico());
@@ -168,5 +167,19 @@ public class ConsultaService {
         novaConsulta.setVagas(dto.getVagas());
         novaConsulta.setStatus(StatusConsulta.DISPONIVEL);
         consultaRepository.save(novaConsulta);
+    }
+
+    private String gerarCodigoConsulta() {
+        String maiorCodigo = consultaRepository.findMaxCodigo();
+        int proximoNumero = 1;
+
+        if (maiorCodigo != null && !maiorCodigo.isEmpty()) {
+            String parteNumerica = maiorCodigo.substring(3);
+            try {
+                proximoNumero = Integer.parseInt(parteNumerica) + 1;
+            } catch (NumberFormatException ignored) {
+            }
+        }
+        return "CON" + String.format("%03d", proximoNumero);
     }
 }
