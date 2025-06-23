@@ -14,8 +14,9 @@ public class EmailService {
     public void enviarSenhaInicial(String destinatario, String senha) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(destinatario);
-        message.setSubject("Senha inicial - Sistema Hospitalar");
-        message.setText("Sua senha inicial é: " + senha);
+        message.setFrom("HOSPITADS");
+        message.setSubject("Senha inicial");
+        message.setText("Bem vindo ao Hospitads! \nSua senha inicial é: " + senha);
         mailSender.send(message);
     }
 }

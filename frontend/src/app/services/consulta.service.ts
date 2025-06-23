@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 
 @Injectable({
@@ -56,4 +56,8 @@ export class ConsultaService {
     return this.http.post(this.apiUrl, dados)
   }
 
+  buscarConsultasComFiltro(filtro: string) {
+    const params = new HttpParams().set('filtro', filtro);
+    return this.http.get<any[]>(`${this.apiUrl}/filtrar`, { params })
+  }
 }

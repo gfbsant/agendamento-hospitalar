@@ -54,4 +54,9 @@ public class FuncionarioController {
         }
     }
 
+    @GetMapping
+    public ResponseEntity<?> listarTodos() {
+        return ResponseEntity.ok(funcionarioService.listarFuncionarios());
+    }
+
 }

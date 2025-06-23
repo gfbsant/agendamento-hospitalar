@@ -1,10 +1,12 @@
-import {Component} from '@angular/core';
+import {Component, OnDestroy} from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {CommonModule} from '@angular/common';
 import {HttpClient} from '@angular/common/http';
 import {ViaCepService} from '../../services/via-cep.service';
 import {NgxMaskDirective, provideNgxMask} from 'ngx-mask';
 import {Router, RouterLink} from '@angular/router';
+import {AuthService} from '../../services/auth.service';
+import {PacienteService} from '../../services/paciente.service';
 
 @Component({
   standalone: true,
@@ -18,14 +20,15 @@ import {Router, RouterLink} from '@angular/router';
   templateUrl: './auto-cadastro.component.html',
   styleUrl: './auto-cadastro.component.css'
 })
-export class AutoCadastroComponent {
+export class AutoCadastroComponent implements OnDestroy {
   form: FormGroup;
   mensagemErro = '';
   emailOcupado = false;
   cpfOcupado = false;
   loading = false;
+  private timerNumero: any = null;
 
-  constructor(private fb: FormBuilder, private http: HttpClient, private viaCep: ViaCepService, private router: Router) {
+  constructor(private fb: FormBuilder, private http: HttpClient, private viaCep: ViaCepService, private router: Router, private authService: AuthService, private pacienteService: PacienteService) {
     this.form = this.fb.group({
       nome: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
@@ -66,11 +69,9 @@ export class AutoCadastroComponent {
 
     this.mensagemErro = '';
 
-    this.http.post('http://localhost:8080/auth/auto-registro', usuario).subscribe({
+    this.authService.registro(usuario).subscribe({
       next: () => {
-        this.http.post('http://localhost:8080/paciente/registrar', paciente, {
-          observe: 'response'
-        }).subscribe({
+        this.pacienteService.registro(paciente).subscribe({
           next: () => {
             sessionStorage.setItem('cadastroSucesso', 'Cadastro realizado com sucesso! ' +
               'Sua senha foi enviada para o email ' + this.form.get('email')?.value);
@@ -80,7 +81,7 @@ export class AutoCadastroComponent {
           },
           error: () => {
             this.mensagemErro = 'Erro ao registrar paciente. Revertendo...';
-            this.http.delete(`http://localhost:8080/auth/usuario?email=${email}`).subscribe({
+            this.authService.delete(email).subscribe({
               next: () => {
                 this.mensagemErro += ' Cadastro revertido com sucesso.';
                 this.loading = false;
@@ -122,5 +123,27 @@ export class AutoCadastroComponent {
       return cepNumerico.replace(/(\d{5})(\d{3})/, '$1-$2');
     }
     return cepNumerico;
+  }
+
+  verificarComprimentoCep(): void {
+    const cepDigitado = this.form.get('cep')?.value?.replace(/\D/g, '');
+    if (cepDigitado?.length >= 8) {
+      this.buscarCep();
+    }
+  }
+
+  agendarBuscaPorNumero(): void {
+    if (this.timerNumero) {
+      clearTimeout(this.timerNumero);
+    }
+    this.timerNumero = setTimeout(() => {
+      this.buscarCep();
+    }, 500);
+  }
+
+  ngOnDestroy(): void {
+    if (this.timerNumero) {
+      clearTimeout(this.timerNumero);
+    }
   }
 }

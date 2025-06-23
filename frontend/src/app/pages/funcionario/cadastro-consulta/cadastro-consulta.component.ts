@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {ConsultaService} from '../../../services/consulta.service';
-import {RouterLink} from '@angular/router';
+import {Router, RouterLink} from '@angular/router';
 
 @Component({
   selector: 'app-cadastro-consulta',
@@ -18,7 +18,7 @@ export class CadastroConsultaComponent implements OnInit {
   mensagem = '';
   tipoMensagem = 'success';
 
-  constructor(private fb: FormBuilder, private consultaService: ConsultaService) {
+  constructor(private fb: FormBuilder, private consultaService: ConsultaService, private router: Router) {
   }
 
   ngOnInit(): void {
@@ -40,6 +40,7 @@ export class CadastroConsultaComponent implements OnInit {
       next: () => {
         this.mostrarMensagem('Consulta cadastrada com sucesso!');
         this.form.reset();
+        this.router.navigate(['/funcionario-home']);
       },
       error: err => {
         this.mostrarMensagem("Erro ao cadastrar consulta: " + err.error.msg);

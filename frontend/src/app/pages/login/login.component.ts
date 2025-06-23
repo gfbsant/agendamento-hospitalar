@@ -30,13 +30,17 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (isPlatformBrowser(PLATFORM_ID)) {
-      const mensagemSucesso = sessionStorage.getItem('cadastroSucesso');
-      if (mensagemSucesso) {
-        this.mensagemSucesso = mensagemSucesso;
-        sessionStorage.removeItem('cadastroSucesso');
+    setTimeout(() =>{
+      if (isPlatformBrowser(PLATFORM_ID)) {
+        const mensagemSucesso = sessionStorage.getItem('cadastroSucesso');
+        if (mensagemSucesso) {
+          this.mensagemSucesso = mensagemSucesso;
+          sessionStorage.removeItem('cadastroSucesso')
+          setTimeout(() => this.mensagemSucesso = '', 5000)
+        }
       }
-    }
+    }, 1000);
+
   }
 
   onSubmit(): void {

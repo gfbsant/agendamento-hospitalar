@@ -39,12 +39,7 @@ public class AuthController {
 
     @PostMapping("/registro")
     public ResponseEntity<?> registro(@RequestBody UsuarioDTO usuarioDTO) {
-        return cadastrarUsuario(usuarioDTO, false);
-    }
-
-    @PostMapping("/auto-registro")
-    public ResponseEntity<?> autoRegistro(@RequestBody UsuarioDTO usuarioDTO) {
-        return cadastrarUsuario(usuarioDTO, true);
+        return cadastrarUsuario(usuarioDTO);
     }
 
     @PostMapping("/login")
@@ -62,13 +57,10 @@ public class AuthController {
         return ResponseEntity.ok(Map.of("token", token));
     }
 
-    private ResponseEntity<?> cadastrarUsuario(UsuarioDTO usuarioDTO, boolean autoRegistro) {
+    private ResponseEntity<?> cadastrarUsuario(UsuarioDTO usuarioDTO) {
         try {
             LOG.info("Iniciando o registro do usuário: " + usuarioDTO.getEmail());
-            String senha = serviceUsuario.cadastrarUsuario(usuarioDTO, autoRegistro);
-            if (autoRegistro) {
-                usuarioDTO.setSenha(senha);
-            }
+            serviceUsuario.cadastrarUsuario(usuarioDTO);
             LOG.info("Usuário cadastrado com sucesso: " + usuarioDTO.getEmail());
             return ResponseEntity.status(HttpStatus.CREATED).body(usuarioDTO);
         } catch (DuplicateResourceException e) {
@@ -97,6 +89,18 @@ public class AuthController {
         boolean existeEmail = email != null && reposUsuario.findByEmail(email).isPresent();
         boolean existeCpf = cpf != null && reposUsuario.findByCpf(cpf).isPresent();
         return ResponseEntity.ok(Map.of("email", existeEmail, "cpf", existeCpf));
+    }
+
+    @PutMapping("/atualizar-email/{cpf}")
+    public ResponseEntity<?> atualizarEmail(@PathVariable String cpf, @RequestBody String novoEmail) {
+        Optional<Usuario> optionalUsuario = reposUsuario.findByCpf(cpf);
+        if (optionalUsuario.isPresent()) {
+            Usuario usuario = optionalUsuario.get();
+            usuario.setEmail(novoEmail);
+            reposUsuario.save(usuario);
+            return ResponseEntity.ok(Map.of("msg", "Sucesso!"));
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuario não encontrado");
     }
 
 }

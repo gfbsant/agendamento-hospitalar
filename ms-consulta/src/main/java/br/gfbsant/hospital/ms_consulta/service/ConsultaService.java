@@ -15,7 +15,6 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 public class ConsultaService {
@@ -99,10 +98,11 @@ public class ConsultaService {
             List<Agendamento> agendamentos = agendamentoRepository.findByConsulta(consulta)
                     .stream().toList();
             List<AgendamentoConsultaDTO> agendamentosConsultaDTO = agendamentos.stream().map(agendamento ->
-                    new AgendamentoConsultaDTO(agendamento.getCodigo(), agendamento.getPacienteId(),
-                            agendamento.getStatus())
+                    new AgendamentoConsultaDTO(agendamento.getCodigo(),
+                            agendamento.getPacienteId(),
+                            agendamento.getStatus(),
+                            agendamento.getPontosUtilizados())
             ).toList();
-
             return new ConsultaComAgendamentosDTO(consulta.getCodigo(), consulta.getDataHora(), consulta.getMedico(),
                     consulta.getEspecialidade(), consulta.getStatus(), agendamentosConsultaDTO);
         }).toList();
@@ -122,22 +122,18 @@ public class ConsultaService {
 
     public void cancelarConsulta(String codigoConsulta) {
         Consulta consulta = consultaRepository.findByCodigo(codigoConsulta).orElseThrow(
-                () -> new RuntimeException("Consulta não encotnrada"));
+                () -> new RuntimeException("Consulta não encontrada"));
 
         List<Agendamento> agendamentos = agendamentoRepository.findByConsulta(consulta);
-        long confirmados = agendamentos.stream().filter(agendamento ->
-                StatusAgendamento.COMPARECEU.equals(agendamento.getStatus())).count();
-
-        if (confirmados >= (consulta.getVagas() / 2)) {
-            throw new RuntimeException("Mais de 50% confirmados. Não é possivel cancelar!");
-        }
 
         consulta.setStatus(StatusConsulta.CANCELADA);
         consultaRepository.save(consulta);
 
         for (Agendamento agendamento : agendamentos) {
-            agendamento.setStatus(StatusAgendamento.CANCELADO);
-            agendamentoRepository.save(agendamento);
+            if (!agendamento.getStatus().equals(StatusAgendamento.CANCELADO)) {
+                agendamento.setStatus(StatusAgendamento.CANCELADO);
+                agendamentoRepository.save(agendamento);
+            }
         }
     }
 
@@ -181,5 +177,15 @@ public class ConsultaService {
             }
         }
         return "CON" + String.format("%03d", proximoNumero);
+    }
+
+    public List<ConsultaDTO> filtrarConsultas(String busca) {
+        return consultaRepository.findByStatusDisponivelAndEspecialidadeOrMedicoContaining(busca)
+                .stream().map(consulta -> {
+                    ConsultaDTO dto = new ConsultaDTO();
+                    BeanUtils.copyProperties(consulta, dto);
+                    return dto;
+                }).toList();
+
     }
 }

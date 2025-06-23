@@ -25,7 +25,7 @@ public class UsuarioService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
-    public String cadastrarUsuario (UsuarioDTO usuarioDTO, boolean autoRegistro) {
+    public void cadastrarUsuario(UsuarioDTO usuarioDTO) {
         if (reposUsuario.findByEmail(usuarioDTO.getEmail()).isPresent()) {
             throw new DuplicateResourceException("Email já cadastrado");
         }
@@ -42,16 +42,11 @@ public class UsuarioService {
         usuario.setCpf(usuarioDTO.getCpf());
         usuario.setTipo(usuarioDTO.getTipo());
 
-        String senha;
-        if (autoRegistro) {
-            senha = gerarSenhaAleatoria();
-            emailService.enviarSenhaInicial(usuario.getEmail(), senha);
-        } else {
-            senha = usuarioDTO.getSenha();
-        }
+        String senha = gerarSenhaAleatoria();
+        emailService.enviarSenhaInicial(usuario.getEmail(), senha);
+
         usuario.setSenha(passwordEncoder.encode(senha));
         usuarioRepository.save(usuario);
-        return autoRegistro ? senha : usuarioDTO.getSenha();
     }
 
     private String gerarSenhaAleatoria() {

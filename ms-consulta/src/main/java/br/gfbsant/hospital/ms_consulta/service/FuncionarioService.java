@@ -6,6 +6,8 @@ import br.gfbsant.hospital.ms_consulta.repository.FuncionarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class FuncionarioService {
 
@@ -27,16 +29,25 @@ public class FuncionarioService {
     }
 
     public void atualizar(String cpf, FuncionarioDTO dto) {
-        Funcionario funcionario = funcionarioRepository.findByCpf(cpf).orElseThrow(() -> new RuntimeException("Funcionario não localizado."));
+        Funcionario funcionario = funcionarioRepository.findByCpf(cpf).orElseThrow(() ->
+                new RuntimeException("Funcionario não localizado."));
         funcionario.setNome(dto.getNome());
-        funcionario.setEmail(dto.getTelefone());
+        funcionario.setEmail(dto.getEmail());
         funcionario.setTelefone(dto.getTelefone());
         funcionarioRepository.save(funcionario);
     }
 
     public void inativar(String cpf) {
-        Funcionario funcionario = funcionarioRepository.findByCpf(cpf).orElseThrow(() -> new RuntimeException("Funcionario não localizado."));
+        Funcionario funcionario = funcionarioRepository.findByCpf(cpf).orElseThrow(() ->
+                new RuntimeException("Funcionario não localizado."));
         funcionario.setAtivo(false);
         funcionarioRepository.save(funcionario);
+    }
+
+    public List<FuncionarioDTO> listarFuncionarios() {
+        return funcionarioRepository.findAll().stream().map(funcionario ->
+                new FuncionarioDTO(funcionario.getNome(), funcionario.getCpf(),
+                        funcionario.getEmail(), funcionario.getTelefone(), funcionario.isAtivo()
+                )).toList();
     }
 }

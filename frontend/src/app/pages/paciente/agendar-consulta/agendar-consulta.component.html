@@ -14,9 +14,33 @@
             <i class="bi bi-calendar-plus me-2"></i>Consultas Disponíveis
           </h3>
         </div>
+
+        <!-- Campo de busca -->
+        <div class="card-body pb-2">
+          <div class="input-group mb-1">
+            <span class="input-group-text">
+              <i class="bi bi-search"></i>
+            </span>
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Buscar por médico ou especialidade..."
+              [(ngModel)]="termoBusca"
+              (keyup)="pesquisarComDelay()"
+            >
+            @if (termoBusca) {
+              <button
+                class="btn btn-outline-secondary" type="button" (click)="limparBusca()">
+                <i class="bi bi-x-lg"></i>
+              </button>
+            }
+
+          </div>
+        </div>
+
         <div class="card-body p-0">
           @if (consultas.length) {
-            <ul class="list-group list-group-flush">
+            <ul class="list-group list-group-flush mb-2">
               @for (consulta of consultas; track consulta.codigo) {
                 <li class="list-group-item d-flex justify-content-between align-items-center">
                   <div>
@@ -34,7 +58,18 @@
           } @else {
             <div class="text-center py-4">
               <i class="bi bi-calendar-x text-muted" style="font-size: 3rem;"></i>
-              <p class="text-muted mt-3">Não há consultas disponíveis no momento.</p>
+              <p
+                class="text-muted mt-3">{{ buscaRealizada ? 'Nenhuma consulta encontrada para esta busca.' : 'Não há consultas disponíveis no momento.' }}</p>
+            </div>
+          }
+
+          <!-- Indicador de carregamento -->
+          @if (carregando) {
+            <div class="text-center p-3">
+              <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Carregando...</span>
+              </div>
+              <p class="mt-2">Buscando consultas...</p>
             </div>
           }
         </div>
@@ -66,10 +101,10 @@
                        class="form-control"
                        [max]="saldoPontos"
                        min="0"
-                       [placeholder]="'Máximo disponível: ' + saldoPontos" />
+                       [placeholder]="'Máximo disponível: ' + saldoPontos"/>
                 <div class="form-text text-success">
                   <i class="bi bi-piggy-bank me-1"></i>
-                  Desconto aplicado: R$ {{ form.value.pontos * 5 || 0 | number:'1.2-2':'pt-BR'}}
+                  Desconto aplicado: R$ {{ form.value.pontos * 5 || 0 | number:'1.2-2':'pt-BR' }}
                 </div>
               </div>
 

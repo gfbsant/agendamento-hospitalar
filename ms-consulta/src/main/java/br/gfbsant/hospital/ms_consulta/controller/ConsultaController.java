@@ -32,6 +32,14 @@ public class ConsultaController {
         return ResponseEntity.ok(consultaService.listarDisponiveis());
     }
 
+    @GetMapping("/filtrar")
+    public ResponseEntity<?> filtrarConsultas(@RequestParam String filtro) {
+        if (filtro == null || filtro.isBlank()) {
+            return ResponseEntity.badRequest().body("Necessario informar medico ou especialidade");
+        }
+        return ResponseEntity.ok(consultaService.filtrarConsultas(filtro));
+    }
+
     @PostMapping("/agendar")
     public ResponseEntity<?> agendar(@RequestBody AgendamentoDTO dto) {
         String codigo = consultaService.agendarConsulta(dto);

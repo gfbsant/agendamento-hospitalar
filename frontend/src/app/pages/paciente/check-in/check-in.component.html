@@ -16,12 +16,15 @@
           </div>
           <div class="card-body p-0">
             @if (agendamentos.length > 0) {
-              <ul class="list-group list-group-flush">
+              <ul class="list-group list-group-flush mb-2">
                 @for (agendamento of agendamentos; track agendamento.codigo) {
                   <li class="list-group-item d-flex justify-content-between align-items-center">
                     <div>
                       <strong>{{ agendamento.dataHora | date:'short' }}</strong>
-                      <div>{{ agendamento.medico }} <span class="badge bg-info">{{ agendamento.especialidade }}</span></div>
+                      <div>{{ agendamento.medico }} </div>
+                      <div>
+                        <span class="badge bg-info rounded-pill">{{ agendamento.especialidade }}</span>
+                      </div>
                     </div>
                     <button class="btn btn-sm btn-success" (click)="selecionar(agendamento)">
                       <i class="bi bi-check-circle me-1"></i>Selecionar

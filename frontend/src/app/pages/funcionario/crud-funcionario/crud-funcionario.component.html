@@ -1,0 +1,123 @@
+<div class="container py-4">
+  <div class="row justify-content-center">
+    <!-- Coluna de listagem -->
+    <div [ngClass]="{'col-lg-10 col-md-12': !mostrandoFormulario, 'col-lg-6 col-md-12': mostrandoFormulario}"
+         class="mx-auto">
+      <div class="card shadow-sm border-success-subtle h-100">
+        <div class="card-header bg-success text-white text-center">
+          <h2 class="mb-0">Lista de Funcionários</h2>
+        </div>
+        <div class="card-body">
+          @if (mensagem) {
+            <div class="alert alert-{{ tipoMensagem }} shadow-sm">{{ mensagem }}</div>
+          }
+
+          <div class="d-flex justify-content-end mb-3">
+            <button class="btn btn-success" (click)="abrirFormularioNovoFuncionario()">
+              <i class="bi bi-person-plus-fill me-2"></i>Novo Funcionário
+            </button>
+          </div>
+
+          @if (funcionarios.length > 0) {
+            <div class="list-group">
+              @for (funcionario of funcionarios; track funcionario.cpf) {
+                <div class="list-group-item list-group-item-action">
+                  <div class="d-flex w-100 justify-content-between align-items-center">
+                    <div>
+                      <h5 class="mb-1">{{ funcionario.nome }}</h5>
+                      <p class="mb-1 text-muted">
+                        <small><i class="bi bi-person-badge me-1"></i>CPF: {{ funcionario.cpf }}</small>
+                      </p>
+                      <p class="mb-1">
+                        <i class="bi bi-envelope me-1"></i>{{ funcionario.email }}
+                        <span class="ms-3"><i class="bi bi-telephone me-1"></i>{{ funcionario.telefone }}</span>
+                      </p>
+                      @if (!funcionario.ativo) {
+                        <p class="mb-1">
+                          <span class="badge bg-secondary rounded-pill">INATIVO</span>
+                        </p>
+                      }
+                    </div>
+                    @if (funcionario.ativo) {
+                      <div>
+                        <button class="btn btn-outline-primary btn-sm me-2" (click)="editarFuncionario(funcionario)">
+                          <i class="bi bi-pencil-square me-1"></i>Editar
+                        </button>
+                        <button class="btn btn-outline-danger btn-sm" (click)="inativarFuncionario(funcionario.cpf)">
+                          <i class="bi bi-person-dash me-1"></i>Inativar
+                        </button>
+                      </div>
+                    }
+
+                  </div>
+                </div>
+              }
+            </div>
+          } @else {
+            <div class="alert alert-info">
+              <i class="bi bi-info-circle me-2"></i>Nenhum funcionário encontrado.
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+
+    <!-- Coluna de formulário - aparece apenas quando necessário -->
+    @if (mostrandoFormulario) {
+      <div class="col-lg-5 col-md-12 mx-auto">
+        <div class="card shadow-sm border-primary h-100">
+          <div class="card-header bg-primary text-white text-center">
+            <h3 class="mb-0">{{ editando ? 'Editar Funcionário' : 'Novo Funcionário' }}</h3>
+          </div>
+          <div class="card-body">
+            <form (ngSubmit)="salvar()" [formGroup]="form">
+              <div class="mb-3">
+                <div class="form-floating">
+                  <input type="text" class="form-control" id="nome" formControlName="nome" placeholder="Nome Completo">
+                  <label for="nome">Nome Completo</label>
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <div class="form-floating">
+                  <input type="text" class="form-control" id="cpf" formControlName="cpf" placeholder="CPF"
+                         [readonly]="editando" required mask="000.000.000-00">
+                  <label for="cpf">CPF</label>
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <div class="form-floating">
+                  <input type="email" class="form-control" id="email" formControlName="email" placeholder="E-mail">
+                  <label for="email">E-mail</label>
+                </div>
+              </div>
+
+              <div class="mb-4">
+                <div class="form-floating">
+                  <input type="text" class="form-control" id="telefone" formControlName="telefone"
+                         placeholder="Telefone" required mask="(00) 00000-0000">
+                  <label for="telefone">Telefone</label>
+                </div>
+              </div>
+
+              <div class="d-grid gap-2">
+                <button class="btn btn-primary" type="submit">
+                  @if (loading) {
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                  } @else {
+                    <i class="bi bi-check-circle me-2"></i>
+                    {{ editando ? 'Atualizar' : 'Cadastrar' }}
+                  }
+                </button>
+                <button class="btn btn-outline-secondary" type="button" (click)="cancelarFormulario()">
+                  <i class="bi bi-x-circle me-2"></i>Cancelar
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+</div>

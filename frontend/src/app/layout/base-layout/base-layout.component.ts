@@ -21,6 +21,7 @@ export class BaseLayoutComponent implements OnInit {
 
   ngOnInit(): void {
     this.tipo = this.auth.getTipo();
+    this.router.navigate([`${this.getHomePath()}`]);
   }
 
 

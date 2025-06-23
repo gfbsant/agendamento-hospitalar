@@ -73,9 +73,7 @@
               </li>
               <li class="list-group-item d-flex justify-content-between">
                 <span>Status:</span>
-                <span class="badge bg-{{ getStatusBadgeClass(consultaSelecionada.status) }}">
-                            {{ consultaSelecionada.status }}
-                          </span>
+                <strong>{{ consultaSelecionada.status }}</strong>
               </li>
             </ul>
 
@@ -88,15 +86,18 @@
                       <div>
                         <strong>CPF: </strong> {{ formatarCpf(agendamento.pacienteId) }}
                       </div>
-                      <span class="badge bg-{{ getStatusBadgeClass(agendamento.status) }} ms-2">
+                      <div>
+                        <span class="badge bg-{{ getStatusBadgeClass(agendamento.status) }} ms-2">
                                     {{ agendamento.status }}
                                   </span>
-                      @if (agendamento.status === 'CHECK_IN') {
-                        <button class="btn btn-sm btn-success"
-                                (click)="confirmarComparecimento(agendamento.codigo)">
-                          <i class="bi bi-check-circle me-1"></i>Confirmar
-                        </button>
-                      }
+                        @if (agendamento.status === 'CHECK_IN') {
+                          <button class="btn btn-sm btn-success ms-3"
+                                  (click)="confirmarComparecimento(agendamento.codigo)">
+                            <i class="bi bi-check-circle me-1"></i>Confirmar
+                          </button>
+                        }
+                      </div>
+
 
                     </div>
                   </li>
@@ -112,10 +113,12 @@
                   <i class="bi bi-clipboard-check me-1"></i>
                   Realizar Consulta
                 </button>
-                <button class="btn btn-danger" (click)="cancelarConsulta(consultaSelecionada.codigo)">
-                  <i class="bi bi-x-circle me-1"></i>
-                  Cancelar Consulta
-                </button>
+                @if (verificarElegibilidadeCancelamento(consultaSelecionada)) {
+                  <button class="btn btn-danger" (click)="cancelarConsulta(consultaSelecionada)">
+                    <i class="bi bi-x-circle me-1"></i>
+                    Cancelar Consulta
+                  </button>
+                }
               }
               <button class="btn btn-outline-secondary" (click)="consultaSelecionada = null">
                 <i class="bi bi-arrow-left me-1"></i>

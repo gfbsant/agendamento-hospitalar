@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ConsultaService} from '../../../services/consulta.service';
 import {DatePipe} from '@angular/common';
+import {PacienteService} from '../../../services/paciente.service';
 
 @Component({
   selector: 'app-funcionario-home',
@@ -17,7 +18,7 @@ export class FuncionarioHomeComponent implements OnInit {
   tipoMensagem = 'success';
   consultaSelecionada: any = null;
 
-  constructor(private consultaService: ConsultaService) {
+  constructor(private consultaService: ConsultaService, private pacienteService: PacienteService) {
   }
 
   ngOnInit(): void {
@@ -26,12 +27,21 @@ export class FuncionarioHomeComponent implements OnInit {
 
   carregarConsultas() {
     this.consultaService.getConsultasProximas48h().subscribe({
-      next: consultas => this.consultas = consultas.slice().reverse(),
+      next: consultas => this.consultas = consultas,
       error: err => this.mostrarMensagem("Erro ao obter consultas: " + err, "danger")
     })
   }
 
   confirmarComparecimento(codigoConsulta: string) {
+    const codigoAtendimento = prompt("Informe o codigo do agendamento:")
+    if (!codigoAtendimento) {
+      this.mostrarMensagem("Código de tendimento nao informado!", "danger");
+      return;
+    }
+    if (codigoAtendimento !== codigoConsulta) {
+      this.mostrarMensagem("O código informado está incorreto.", "danger");
+      return;
+    }
     this.consultaService.confirmarComparecimento(codigoConsulta).subscribe({
       next: () => {
         this.mostrarMensagem("Comparecimento confirmado!");
@@ -44,9 +54,9 @@ export class FuncionarioHomeComponent implements OnInit {
     })
   }
 
-  cancelarConsulta(codigoConsulta: string) {
+  cancelarConsulta(consultaSelecionada: any) {
     if (!confirm('Deseja realmente cancelar esta consulta?')) return;
-    this.consultaService.cancelarConsulta(codigoConsulta).subscribe({
+    this.consultaService.cancelarConsulta(consultaSelecionada.codigo).subscribe({
       next: () => {
         this.mostrarMensagem("Cancelamento confirmado!");
         setTimeout(() => {
@@ -55,7 +65,24 @@ export class FuncionarioHomeComponent implements OnInit {
         }, 1200);
       },
       error: err => this.mostrarMensagem("Erro ao cancelar consulta: " + err, 'danger')
-    })
+    });
+    this.devolverPontos(consultaSelecionada);
+  }
+
+  devolverPontos(consultaSelecionada: any) {
+    const agendamentos = consultaSelecionada.agendamentos;
+    if (agendamentos) {
+      for (const agendamento of agendamentos) {
+        if (agendamento?.pontosUtilizados > 0 && agendamento?.status !== 'CANCELADO') {
+          const dados = {
+            cpf: agendamento?.pacienteId,
+            descricao: 'Cancelamento de Agendamento',
+            pontos: agendamento?.pontosUtilizados
+          };
+          this.pacienteService.cancelarPontos(dados).subscribe();
+        }
+      }
+    }
   }
 
   realizarConsulta(codigoConsulta: string) {
@@ -112,5 +139,15 @@ export class FuncionarioHomeComponent implements OnInit {
       default:
         return 'secondary';
     }
+  }
+
+  verificarElegibilidadeCancelamento(consulta: any): boolean {
+    const agendamentos = consulta.agendamentos;
+    const agendamentosCount = agendamentos.length;
+    const confirmados = agendamentos.filter((agendamento: any) =>
+      agendamento.status === 'COMPARECEU').length;
+    const podeAgendar: boolean = confirmados < (agendamentosCount / 2);
+    console.log("Pode agendar: " + podeAgendar);
+    return podeAgendar
   }
 }

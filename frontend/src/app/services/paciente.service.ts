@@ -35,4 +35,8 @@ export class PacienteService {
       params: {cpf}
     });
   }
+
+  registro(paciente: any) {
+    return this.http.post('http://localhost:8080/paciente/registrar', paciente);
+  }
 }

@@ -11,29 +11,35 @@ import {CancelarAgendamentoComponent} from './pages/paciente/cancelar-agendament
 import {CheckInComponent} from './pages/paciente/check-in/check-in.component';
 import {FuncionarioHomeComponent} from './pages/funcionario/funcionario-home/funcionario-home.component';
 import {CadastroConsultaComponent} from './pages/funcionario/cadastro-consulta/cadastro-consulta.component';
+import {CrudFuncionarioComponent} from './pages/funcionario/crud-funcionario/crud-funcionario.component';
+import {FuncionarioGuard} from './guards/funcionario.guard';
+import {PacienteGuard} from './guards/paciente.guard';
+import {AcessoNegadoComponent} from './pages/acesso-negado/acesso-negado.component';
 
 export const pacienteRoutes: Routes = [
-  {path: 'paciente-home', component: PacienteHomeComponent},
-  {path: 'comprar-pontos', component: CompraPontosComponent},
-  {path: 'extrato-pontos', component: ExtratoPontosComponent},
-  {path: 'agendar-consulta', component: AgendarConsultaComponent},
-  {path: 'cancelar-consulta', component: CancelarAgendamentoComponent},
+  {path: 'paciente-home', component: PacienteHomeComponent, canActivate: [PacienteGuard]},
+  {path: 'comprar-pontos', component: CompraPontosComponent, canActivate: [PacienteGuard]},
+  {path: 'extrato-pontos', component: ExtratoPontosComponent, canActivate: [PacienteGuard]},
+  {path: 'agendar-consulta', component: AgendarConsultaComponent, canActivate: [PacienteGuard]},
+  {path: 'cancelar-consulta', component: CancelarAgendamentoComponent, canActivate: [PacienteGuard]},
   {path: 'check-in', component: CheckInComponent}
 ];
 
 export const funcionarioRoutes: Routes = [
-  {path: 'funcionario-home', component: FuncionarioHomeComponent},
-  {path: 'cadastro-consulta', component: CadastroConsultaComponent}
+  {path: 'funcionario-home', component: FuncionarioHomeComponent, canActivate: [FuncionarioGuard]},
+  {path: 'cadastro-consulta', component: CadastroConsultaComponent, canActivate: [FuncionarioGuard]},
+  {path: 'crud-funcionario', component: CrudFuncionarioComponent, canActivate: [FuncionarioGuard]}
 ]
-
 
 export const routes: Routes = [
   {
     path: 'auto-cadastro', component: AutoCadastroComponent
   },
   {
-    path: 'login',
-    component: LoginComponent
+    path: 'login', component: LoginComponent
+  },
+  {
+    path: 'acesso-negado', component: AcessoNegadoComponent
   },
   {
     path: '',

@@ -20,4 +20,9 @@ public interface ConsultaRepository extends JpaRepository<Consulta, Long> {
 
     @Query("SELECT MAX(c.codigo) FROM Consulta c")
     String findMaxCodigo();
+
+    @Query("SELECT c FROM Consulta c WHERE c.status = 'DISPONIVEL' AND " +
+            "(LOWER(c.especialidade) LIKE LOWER(CONCAT('%', :termo, '%')) OR " +
+            "LOWER(c.medico) LIKE LOWER(CONCAT('%', :termo, '%')))")
+    List<Consulta> findByStatusDisponivelAndEspecialidadeOrMedicoContaining(@Param("termo") String termo);
 }

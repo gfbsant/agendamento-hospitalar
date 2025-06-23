@@ -1,0 +1,26 @@
+.acesso-negado-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f8f9fa;
+
+  .card {
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+    .card-header {
+      text-align: center;
+    }
+
+    .card-body {
+      text-align: center;
+      padding: 2rem;
+
+      .btn {
+        margin-top: 1.5rem;
+      }
+    }
+  }
+}

@@ -3,9 +3,8 @@ import {HttpClient} from '@angular/common/http';
 import {Observable, tap} from 'rxjs';
 import {jwtDecode} from 'jwt-decode';
 import {Router} from '@angular/router';
-import { isPlatformBrowser } from '@angular/common';
+import {isPlatformBrowser} from '@angular/common';
 import {PLATFORM_ID} from '@angular/core';
-
 
 
 @Injectable({
@@ -13,19 +12,20 @@ import {PLATFORM_ID} from '@angular/core';
 })
 export class AuthService {
 
-  private baseUrl = 'http://localhost:8080/auth'
+  private apiUrl = 'http://localhost:8080/auth'
 
   private tipoKey = 'tipo';
   private tokenKey = 'token';
   private isBrowser: boolean;
 
-  constructor(private http: HttpClient, private router: Router, @Inject(PLATFORM_ID) platformId: Object ) {
+  constructor(private http: HttpClient, private router: Router, @Inject(PLATFORM_ID) platformId: Object) {
     this.isBrowser = isPlatformBrowser(platformId);
   }
 
   login(email: String, senha: String): Observable<any> {
-    return this.http.post<{ token: string }>(`${this.baseUrl}/login`, {email, senha}).pipe(
+    return this.http.post<{ token: string }>(`${this.apiUrl}/login`, {email, senha}).pipe(
       tap(res => {
+        console.log('Login efetuado com sucesso.')
         this.redirecionarPorTipoUsuario(res.token);
       })
     );
@@ -89,7 +89,7 @@ export class AuthService {
     }
   }
 
-  getToken() : string | null{
+  getToken(): string | null {
     if (this.isBrowser) {
       return localStorage.getItem(this.tokenKey);
     }
@@ -108,4 +108,26 @@ export class AuthService {
       return false;
     }
   }
+
+  registro(usuario: any) {
+    return this.http.post(`${this.apiUrl}/registro`, usuario);
+  }
+
+  delete(email: string) {
+    return this.http.delete(`${this.apiUrl}/usuario?email=${email}`)
+  }
+
+  atualizarEmail(cpf: string, email: string) {
+    return this.http.put(`${this.apiUrl}/atualizar-email/${cpf}`, email)
+  }
+
+  isPaciente() :boolean {
+    return this.getTipo() === 'PACIENTE';
+  }
+
+  isFuncionario(): boolean {
+    return this.getTipo() === 'FUNCIONARIO';
+  }
+
+
 }

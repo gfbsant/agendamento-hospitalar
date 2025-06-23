@@ -46,7 +46,7 @@ public class PacienteService {
         Paciente paciente = getPacientePorCpf(dto.getCpf());
         paciente.setPontos(paciente.getPontos() + dto.getPontos());
         pacienteRepo.save(paciente);
-        TransacaoPontos transacao = new TransacaoPontos(paciente, "ENTRADA", "Compra de pontos",
+        TransacaoPontos transacao = new TransacaoPontos(paciente, "ENTRADA", "COMPRA DE PONTOS",
                 dto.getValorReais(), dto.getPontos());
         transacaoRepo.save(transacao);
     }
