@@ -144,10 +144,11 @@ export class FuncionarioHomeComponent implements OnInit {
   verificarElegibilidadeCancelamento(consulta: any): boolean {
     const agendamentos = consulta.agendamentos;
     const agendamentosCount = agendamentos.length;
+    if (agendamentosCount === 0) return true;
     const confirmados = agendamentos.filter((agendamento: any) =>
       agendamento.status === 'COMPARECEU').length;
     const podeAgendar: boolean = confirmados < (agendamentosCount / 2);
     console.log("Pode agendar: " + podeAgendar);
-    return podeAgendar
+    return podeAgendar;
   }
 }

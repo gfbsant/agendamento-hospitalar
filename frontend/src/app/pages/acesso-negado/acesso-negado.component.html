@@ -1,18 +1,26 @@
 <div class="acesso-negado-container">
   <div class="card">
     <div class="card-header bg-danger text-white">
-      <h2>Acesso Negado</h2>
+      <div>
+        <h2 class="bi bi-exclamation-triangle-fill me-2"> Acesso Negado</h2>
+
+      </div>
     </div>
     <div class="card-body">
       <div class="alert alert-warning">
-        <i class="bi bi-exclamation-triangle-fill me-2"></i>
         Você não tem permissão para acessar essa página.
       </div>
       <p>Verifique se você está logado com o tipo de usuário correto para acessar este recurso.</p>
-      <button class="btn btn-primary" (click)="voltarParaLogin()">
-        <i class="bi bi-box-arrow-in-right me-2"></i>
-        Ir para Login
-      </button>
+      <div class="d-flex justify-content-between gap-3">
+
+        <button class="btn btn-primary" (click)="voltarParaLogin()">
+          <i class="bi bi-box-arrow-in-right me-2"></i>
+          Ir para Login
+        </button>
+        <button class="btn btn-secondary" (click)="voltar()">
+          Voltar
+        </button>
+      </div>
     </div>
   </div>
 </div>
