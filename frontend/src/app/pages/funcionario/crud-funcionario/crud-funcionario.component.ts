@@ -11,7 +11,8 @@ import {NgxMaskDirective, NgxMaskPipe, provideNgxMask} from 'ngx-mask';
     FormsModule,
     ReactiveFormsModule,
     NgClass,
-    NgxMaskDirective
+    NgxMaskDirective,
+    NgxMaskPipe
   ],
   providers: [
     provideNgxMask()

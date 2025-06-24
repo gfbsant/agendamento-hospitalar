@@ -95,12 +95,11 @@
               </div>
 
               <div class="mb-3">
-                <label class="form-label">Pontos a usar:</label>
+                <label class="form-label">Pontos para usar: {{ saldoPontos }}</label>
                 <input type="number"
                        formControlName="pontos"
                        class="form-control"
                        [max]="saldoPontos"
-                       min="0"
                        [placeholder]="'Máximo disponível: ' + saldoPontos"/>
                 <div class="form-text text-success">
                   <i class="bi bi-piggy-bank me-1"></i>

@@ -26,11 +26,11 @@
                     <div>
                       <h5 class="mb-1">{{ funcionario.nome }}</h5>
                       <p class="mb-1 text-muted">
-                        <small><i class="bi bi-person-badge me-1"></i>CPF: {{ funcionario.cpf }}</small>
+                        <small><i class="bi bi-person-badge me-1"></i>CPF: {{ funcionario.cpf | mask:'000.000.000-00' }}</small>
                       </p>
                       <p class="mb-1">
                         <i class="bi bi-envelope me-1"></i>{{ funcionario.email }}
-                        <span class="ms-3"><i class="bi bi-telephone me-1"></i>{{ funcionario.telefone }}</span>
+                        <span class="ms-3"><i class="bi bi-telephone me-1"></i>{{ funcionario.telefone | mask:'(00) 00000-0000' }}</span>
                       </p>
                       @if (!funcionario.ativo) {
                         <p class="mb-1">
