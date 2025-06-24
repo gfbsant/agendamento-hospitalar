@@ -31,6 +31,30 @@ export class AuthService {
     );
   }
 
+  registroPaciente(usuarioAuth: any) {
+    return this.http.post(`${this.apiUrl}/registro-paciente`, usuarioAuth);
+  }
+
+  registroFuncionario(usuarioAuth: any) {
+    return this.http.post(`${this.apiUrl}/registro-funcionario`, usuarioAuth);
+  }
+
+  delete(email: string) {
+    return this.http.delete(`${this.apiUrl}/usuario?email=${email}`)
+  }
+
+  atualizarEmail(cpf: string, email: string) {
+    return this.http.put(`${this.apiUrl}/atualizar-email/${cpf}`, email)
+  }
+
+  verificarCpf(cpf: string) {
+    return this.http.get<any>(`${this.apiUrl}/existe?cpf=${cpf}`);
+  }
+
+  verificarEmail(email: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/existe?email=${email}`);
+  }
+
   redirecionarPorTipoUsuario(token: string) {
     try {
       const decodedToken: any = jwtDecode(token)
@@ -108,26 +132,5 @@ export class AuthService {
       return false;
     }
   }
-
-  registro(usuario: any) {
-    return this.http.post(`${this.apiUrl}/registro`, usuario);
-  }
-
-  delete(email: string) {
-    return this.http.delete(`${this.apiUrl}/usuario?email=${email}`)
-  }
-
-  atualizarEmail(cpf: string, email: string) {
-    return this.http.put(`${this.apiUrl}/atualizar-email/${cpf}`, email)
-  }
-
-  isPaciente() :boolean {
-    return this.getTipo() === 'PACIENTE';
-  }
-
-  isFuncionario(): boolean {
-    return this.getTipo() === 'FUNCIONARIO';
-  }
-
 
 }

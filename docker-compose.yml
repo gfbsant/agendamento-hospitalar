@@ -97,6 +97,8 @@ services:
       - "8080:8080"
     networks:
       - hospital_net
+    env_file:
+      - .env
 
   frontend:
     build: ./frontend

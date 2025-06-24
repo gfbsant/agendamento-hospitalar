@@ -99,7 +99,7 @@ export class CrudFuncionarioComponent implements OnInit {
       })
     } else {
       const usuario = {email: funcionario.email, cpf: funcionario.cpf, nome: funcionario.nome, tipo: 'FUNCIONARIO'};
-      this.authService.registro(usuario).subscribe({
+      this.authService.registroFuncionario(usuario).subscribe({
         next: () => {
           this.funcionarioService.cadastrarFuncionario(funcionario).subscribe({
             next: () => {

@@ -17,6 +17,7 @@ import br.gfbsant.hospital.ms_auth.security.JwtService;
 import br.gfbsant.hospital.ms_auth.service.UsuarioService;
 
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 
 @RestController
@@ -37,8 +38,19 @@ public class AuthController {
     private UsuarioService serviceUsuario;
 
 
-    @PostMapping("/registro")
-    public ResponseEntity<?> registro(@RequestBody UsuarioDTO usuarioDTO) {
+    @PostMapping("/registro-paciente")
+    public ResponseEntity<?> registroPaciente(@RequestBody UsuarioDTO usuarioDTO) {
+        if (!Objects.equals(usuarioDTO.getTipo(), "PACIENTE")) {
+            return ResponseEntity.badRequest().body("Tipo de usuario não permitido.");
+        }
+        return cadastrarUsuario(usuarioDTO);
+    }
+
+    @PostMapping("/registro-funcionario")
+    public ResponseEntity<?> registroFuncionarios(@RequestBody UsuarioDTO usuarioDTO) {
+        if (!Objects.equals(usuarioDTO.getTipo(), "FUNCIONARIO")) {
+            return ResponseEntity.badRequest().body("Tipo de usuario não permitido.");
+        }
         return cadastrarUsuario(usuarioDTO);
     }
 

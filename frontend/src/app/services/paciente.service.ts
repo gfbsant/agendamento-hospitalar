@@ -10,10 +10,6 @@ export class PacienteService {
   constructor(private http: HttpClient) {
   }
 
-  getPerfil(cpf: string) {
-    return this.http.get(`${this.apiUrl}/perfil`, {params: {cpf}});
-  }
-
   getSaldo(cpf: string) {
     return this.http.get(`${this.apiUrl}/saldo`, {params: {cpf}});
   }
@@ -37,6 +33,6 @@ export class PacienteService {
   }
 
   registro(paciente: any) {
-    return this.http.post('http://localhost:8080/paciente/registrar', paciente);
+    return this.http.post(`${this.apiUrl}/registrar`, paciente);
   }
 }

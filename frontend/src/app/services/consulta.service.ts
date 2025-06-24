@@ -12,7 +12,7 @@ export class ConsultaService {
   }
 
   getAgendamentos(cpf: string): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/agendamentos`, {
+    return this.http.get<any[]>(`${this.apiUrl}/agendamentos-paciente`, {
       params: {cpf}
     });
   }
@@ -33,23 +33,23 @@ export class ConsultaService {
   }
 
   realizarCheckIn(codigo: string) {
-    return this.http.post(`${this.apiUrl}/checkin/${codigo}`, {});
+    return this.http.post(`${this.apiUrl}/check-in/${codigo}`, {});
   }
 
   getConsultasProximas48h() {
-    return this.http.get<any[]>(`${this.apiUrl}/proximas`);
+    return this.http.get<any[]>(`${this.apiUrl}/proximas-48h`);
   }
 
-  confirmarComparecimento(codigoAgendamento: string) {
-    return this.http.post(`${this.apiUrl}/confirmar/${codigoAgendamento}`, {});
+  confirmarComparecimento(codigo: string) {
+    return this.http.post(`${this.apiUrl}/confirmar-comparecimento/${codigo}`, {});
   }
 
-  cancelarConsulta(codigoConsulta: string) {
-    return this.http.post(`${this.apiUrl}/cancelar-consulta/${codigoConsulta}`, {});
+  cancelarConsulta(codigo: string) {
+    return this.http.post(`${this.apiUrl}/cancelar-consulta/${codigo}`, {});
   }
 
-  realizarConsulta(codigoConsulta: string) {
-    return this.http.post(`${this.apiUrl}/realizar/${codigoConsulta}`, {})
+  realizarConsulta(codigo: string) {
+    return this.http.post(`${this.apiUrl}/realizar-consulta/${codigo}`, {})
   }
 
   cadastrarConsulta(dados: { dataHora: string, especialidade: string, medico: string, valor: number, vagas: number }) {

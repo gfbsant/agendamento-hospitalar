@@ -46,7 +46,7 @@ public class ConsultaController {
         return ResponseEntity.ok(Map.of("codigo", codigo));
     }
 
-    @GetMapping("/agendamentos")
+    @GetMapping("/agendamentos-paciente")
     public ResponseEntity<?> porPaciente(@RequestParam String cpf) {
         return ResponseEntity.ok(consultaService.listarAgendamentosPorPaciente(cpf));
     }
@@ -57,18 +57,18 @@ public class ConsultaController {
         return ResponseEntity.ok(Map.of("msg", "Consulta cancelada com sucesso!"));
     }
 
-    @PostMapping("/checkin/{codigo}")
+    @PostMapping("/check-in/{codigo}")
     public ResponseEntity<?> checkIn(@PathVariable String codigo) {
         consultaService.checkInAgendamento(codigo);
         return ResponseEntity.ok(Map.of("msg", "Check-in realizado com sucesso!"));
     }
 
-    @GetMapping("/proximas")
+    @GetMapping("/proximas-48h")
     public ResponseEntity<?> proximas48h() {
         return ResponseEntity.ok(consultaService.listarProximas48h());
     }
 
-    @PostMapping("/realizar/{codigo}")
+    @PostMapping("/realizar-consulta/{codigo}")
     public ResponseEntity<?> realizar(@PathVariable String codigo) {
         String errMessage;
         try {
@@ -92,7 +92,7 @@ public class ConsultaController {
         return ResponseEntity.badRequest().body(Map.of("msg", errMessage));
     }
 
-    @PostMapping("/confirmar/{codigo}")
+    @PostMapping("/confirmar-comparecimento/{codigo}")
     public ResponseEntity<?> confirmarComparecimento(@PathVariable String codigo) {
         String errMessage;
         try {

@@ -69,7 +69,7 @@ export class AutoCadastroComponent implements OnDestroy {
 
     this.mensagemErro = '';
 
-    this.authService.registro(usuario).subscribe({
+    this.authService.registroPaciente(usuario).subscribe({
       next: () => {
         this.pacienteService.registro(paciente).subscribe({
           next: () => {
@@ -104,7 +104,7 @@ export class AutoCadastroComponent implements OnDestroy {
   verificarEmail() {
     const email = this.form.get('email')?.value;
     if (!email) return;
-    this.http.get<any>(`http://localhost:8080/auth/existe?email=${email}`).subscribe(res => {
+    this.authService. verificarEmail(email).subscribe(res => {
       this.emailOcupado = res.email;
     })
   }
@@ -112,7 +112,7 @@ export class AutoCadastroComponent implements OnDestroy {
   verificarCpf() {
     const cpf = this.form.get('cpf')?.value;
     if (!cpf) return;
-    this.http.get<any>(`http://localhost:8080/auth/existe?cpf=${cpf}`).subscribe(res => {
+    this.authService.verificarCpf(cpf).subscribe(res => {
       this.cpfOcupado = res.cpf;
     })
   }
