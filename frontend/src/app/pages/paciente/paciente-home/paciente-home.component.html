@@ -34,10 +34,10 @@
                   <div>
                     <strong>{{ agendamento.dataHora | date:'short' }}</strong>
                     <div class="my-1">
-                      {{ agendamento.medico }} - {{ agendamento.especialidade }}
+                      <strong>Código:</strong> {{ agendamento.codigo }}
                     </div>
                     <div class="my-1">
-                      Código: {{ agendamento.codigo }}
+                      {{ agendamento.medico }} - {{ agendamento.especialidade }}
                     </div>
                   </div>
                   <span class="badge bg-info rounded-pill me-2">Agendado</span>
@@ -48,10 +48,10 @@
                   <div>
                     <strong>{{ agendamento.dataHora | date:'short' }}</strong>
                     <div class="my-1">
-                      {{ agendamento.medico }} - {{ agendamento.especialidade }}
+                      <strong>Código:</strong> {{ agendamento.codigo }}
                     </div>
                     <div class="my-1">
-                      Código: {{ agendamento.codigo }}
+                      {{ agendamento.medico }} - {{ agendamento.especialidade }}
                     </div>
                   </div>
                   <span class="badge bg-warning rounded-pill me-2">Check-in</span>

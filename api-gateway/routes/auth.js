@@ -11,7 +11,7 @@ const authProxy = createProxyMiddleware({
 });
 
 router.post('/login', (req, res, next) => {
-    console.log('Login request received:', {
+    console.log('[AuthRoutes] - Login request received:', {
         metodo: req.method,
         protocolo: req.protocol,
         caminho: req.url
@@ -20,7 +20,7 @@ router.post('/login', (req, res, next) => {
 }, authProxy);
 
 router.delete('/usuario', (req, res, next) => {
-    console.log('Delete request received:', {
+    console.log('[AuthRoutes] - Delete request received:', {
         metodo: req.method,
         protocolo: req.protocol,
         caminho: req.url
@@ -29,7 +29,7 @@ router.delete('/usuario', (req, res, next) => {
 }, authProxy)
 
 router.post('/registro-paciente', (req, res, next) => {
-    console.log('Registro de Paciente request received:', {
+    console.log('[AuthRoutes] - Registro de Paciente request received:', {
         metodo: req.method,
         protocolo: req.protocol,
         caminho: req.url
@@ -38,7 +38,7 @@ router.post('/registro-paciente', (req, res, next) => {
 }, authProxy);
 
 router.post('/registro-funcionario', [verificarToken, verificarFuncionario], (req, res, next) => {
-    console.log('Registro de Funcionario request received:', {
+    console.log('[AuthRoutes] - Registro de Funcionario request received:', {
         metodo: req.method,
         protocolo: req.protocol,
         caminho: req.url
@@ -47,7 +47,7 @@ router.post('/registro-funcionario', [verificarToken, verificarFuncionario], (re
 }, authProxy);
 
 router.put('/atualizar-email/:cpf', [verificarToken, verificarFuncionario], (req, res, next) => {
-    console.log('Atualizacao de e-mail request received:', {
+    console.log('[AuthRoutes] - Atualizacao de e-mail request received:', {
         metodo: req.method,
         protocolo: req.protocol,
         caminho: req.url
@@ -57,7 +57,7 @@ router.put('/atualizar-email/:cpf', [verificarToken, verificarFuncionario], (req
 
 
 router.get('/existe', (req, res, next) => {
-    console.log('Verificacao \"existe\" request received:', {
+    console.log('[AuthRoutes] - Verificacao \"existe\" request received:', {
         metodo: req.method,
         protocolo: req.protocol,
         caminho: req.url
