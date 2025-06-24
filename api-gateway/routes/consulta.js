@@ -12,7 +12,7 @@ const consultaProxy =
         pathRewrite: {'^/consulta': ''}
     });
 
-router.get('/agendamentos', [verificarToken, verificarPaciente], (req, res, next) => {
+router.get('/agendamentos-paciente', [verificarToken, verificarPaciente], (req, res, next) => {
     console.log('[ConsultaRoutes] - Recuperar todos os agendamentos request received: ', {
         metodo: req.method,
         protocolo: req.protocol,
@@ -107,8 +107,43 @@ router.post('/', [verificarToken, verificarFuncionario], (req, res, next) => {
     console.log('[ConsultaRoutes] - Cadastrar nova consulta request received: ', {
         metodo: req.method,
         protocolo: req.protocol,
-        caminho: req.url,
-        corpo: req.body
+        caminho: req.url
+    });
+    next();
+}, consultaProxy);
+
+router.get('/funcionarios', [verificarToken, verificarFuncionario], (req, res, next) => {
+    console.log('[ConsultaRoutes] - Listar funcionarios request received: ', {
+        metodo: req.method,
+        protocolo: req.protocol,
+        caminho: req.url
+    });
+    next();
+}, consultaProxy);
+
+router.put('/funcionarios/:cpf', [verificarToken, verificarFuncionario], (req, res, next) => {
+    console.log('[ConsultaRoutes] - Atualizar funcionario request received: ', {
+        metodo: req.method,
+        protocolo: req.protocol,
+        caminho: req.url
+    });
+    next();
+}, consultaProxy);
+
+router.post('/funcionarios', [verificarToken, verificarFuncionario], (req, res, next) => {
+    console.log('[ConsultaRoutes] - Adicionar funcionario request received: ', {
+        metodo: req.method,
+        protocolo: req.protocol,
+        caminho: req.url
+    });
+    next();
+}, consultaProxy);
+
+router.patch('/funcionarios/inativar/:cpf', [verificarToken, verificarFuncionario], (req, res, next) => {
+    console.log('[ConsultaRoutes] - Inativar funcionario request received: ', {
+        metodo: req.method,
+        protocolo: req.protocol,
+        caminho: req.url
     });
     next();
 }, consultaProxy);

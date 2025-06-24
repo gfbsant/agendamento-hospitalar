@@ -1,6 +1,6 @@
 const express = require('express');
 const {createProxyMiddleware} = require('http-proxy-middleware');
-const {verificarToken, verificarPaciente, verificarFuncionario} = require('../middlewares/auth');
+const {verificarToken, verificarPaciente} = require('../middlewares/auth');
 
 
 const router = express.Router();

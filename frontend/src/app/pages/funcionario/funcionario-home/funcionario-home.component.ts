@@ -35,7 +35,7 @@ export class FuncionarioHomeComponent implements OnInit {
   confirmarComparecimento(codigoConsulta: string) {
     const codigoAtendimento = prompt("Informe o codigo do agendamento:")
     if (!codigoAtendimento) {
-      this.mostrarMensagem("Código de tendimento nao informado!", "danger");
+      this.mostrarMensagem("Código de atendimento não informado.", "danger");
       return;
     }
     if (codigoAtendimento !== codigoConsulta) {

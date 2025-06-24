@@ -1,7 +1,7 @@
 const express = require('express');
 const {createProxyMiddleware} = require('http-proxy-middleware');
 const router = express.Router();
-const {verificarToken, verificarPaciente, verificarFuncionario} = require('../middlewares/auth');
+const {verificarToken, verificarFuncionario} = require('../middlewares/auth');
 
 const authProxy = createProxyMiddleware({
     target: 'http://ms-auth:8080',
